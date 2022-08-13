@@ -8,10 +8,11 @@
 import Foundation
 
 enum DateType: String {
-    case fullDate = "HH:MM,  EE d MMMM"
+    case fullDate = "HH:mm,  EE d MMMM"
     case shortDate = "dd/MM"
     case shortAndWDDate = "EE dd/MM"
     case time = "HH:mm"
+    case hour = "H"
 }
 
 extension Date {
@@ -23,7 +24,23 @@ extension Date {
     }()
 
     func toString(type: DateType) -> String {
-        Self.formatter.dateFormat = type.rawValue
+        if let wind = UserDefaultsManager.shared.settings.first?.value,
+           wind.timeFormatMode == 0 {
+            var format = ""
+            switch type {
+            case .fullDate:
+                format = "hh:mm a,  EE d MMMM"
+            case .time:
+                format = "hh:mm a"
+            case .hour:
+                format = "h a"
+            default:
+                format = type.rawValue
+            }
+            Self.formatter.dateFormat = format
+        } else {
+            Self.formatter.dateFormat = type.rawValue
+        }
         return Self.formatter.string(from: self)
     }
 }

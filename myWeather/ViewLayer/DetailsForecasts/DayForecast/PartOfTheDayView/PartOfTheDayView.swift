@@ -41,17 +41,21 @@ class PartOfTheDayView: UIView {
     var data: PartOfTheDay? {
         didSet{
             guard let data = data else {return}
-            temp.text = "\(data.tempAvg ?? 0)˚"
+            let temp = Converter.convertDegreeScale(data.tempAvg ?? 0)
+            tempLabel.text = "\(temp)˚"
+            
             prescriptionsLabel.text = "\(data.condition)"
-            print(data.condition)
             
             let icon = WeatherConditionIcons.init(iconName: data.condition)
             prescriptionsImageView.image = icon.icon
             
+            let feelsLike = Converter.convertDegreeScale(data.feelsLike)
+            let wind = Converter.convertWindSpeed(data.windSpeed)
+            let uvIndex = Converter.convertUVIndex(data.uvIndex)
             let array = [
-                ModelTableView(name: .feelsLike, condition: "\(data.feelsLike)˚"),
-                ModelTableView(name: .wind, condition: "\(data.windSpeed) m/s (\(data.windDir.uppercased()))"),
-                ModelTableView(name: .uvIndex, condition: "4 (MIDL)"),
+                ModelTableView(name: .feelsLike, condition: "\(feelsLike)˚"),
+                ModelTableView(name: .wind, condition: "\(wind) (\(data.windDir.uppercased()))"),
+                ModelTableView(name: .uvIndex, condition: "\(uvIndex)"),
                 ModelTableView(name: .rain, condition: "\(data.precStrength)%"),
                 ModelTableView(name: .cloudiness, condition: "\(Int(data.cloudness))"),
             ]
@@ -60,17 +64,16 @@ class PartOfTheDayView: UIView {
         }
     }
 
-    private let partName: UILabel
     private let dataForTableView = [ModelTableView]()
-    private let temp = UILabel.setBlackLabel(text: "__˚", fontSize: 30, fontStyle: .regular)
-    private let prescriptionsLabel = UILabel.setBlackLabel(text: "____", fontSize: 14, fontStyle: .regular)
+    private let partNameLabel: UILabel
+    private let tempLabel = UILabel.setBlackLabel(text: "__˚", fontSize: 30, fontStyle: .regular)
+    private let prescriptionsLabel = UILabel.setBlackLabel(text: "...", fontSize: 14, fontStyle: .regular)
     private let prescriptionsImageView = UIImageView.setImage("sunIcon")
     private let tableView = PartOfTheDayTableView()
     
     // MARK: - Life cycle
     init(partName: String){
-        self.partName = UILabel.setBlackLabel(text: partName, fontSize: 16, fontStyle: .medium)
-
+        self.partNameLabel = UILabel.setBlackLabel(text: partName, fontSize: 16, fontStyle: .medium)
         super.init(frame: .zero)
         setupView()
     }
@@ -90,8 +93,8 @@ class PartOfTheDayView: UIView {
         backgroundColor = .specialLightBlue
         layer.cornerRadius = 10
         
-        [partName,
-         temp,
+        [partNameLabel,
+         tempLabel,
          prescriptionsLabel,
          prescriptionsImageView,
          tableView
@@ -103,7 +106,7 @@ class PartOfTheDayView: UIView {
 
     
     private func setFrames(){
-        let size = temp.frame.size.height
+        let size = tempLabel.frame.size.height
         prescriptionsImageView.frame.size = CGSize(width: size, height: size)
     }
 
@@ -115,17 +118,17 @@ class PartOfTheDayView: UIView {
 extension PartOfTheDayView {
     private func setConstraints(){
         NSLayoutConstraint.activate([
-            partName.topAnchor.constraint(equalTo: topAnchor, constant: 15),
-            partName.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            partNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 15),
+            partNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
 
-            temp.topAnchor.constraint(equalTo: topAnchor, constant: 15),
-            temp.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0),
+            tempLabel.topAnchor.constraint(equalTo: topAnchor, constant: 15),
+            tempLabel.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0),
             
             prescriptionsImageView.topAnchor.constraint(equalTo: topAnchor, constant: 15),
-            prescriptionsImageView.trailingAnchor.constraint(equalTo: temp.leadingAnchor, constant: -25),
+            prescriptionsImageView.trailingAnchor.constraint(equalTo: tempLabel.leadingAnchor, constant: -25),
 
-            prescriptionsLabel.topAnchor.constraint(equalTo: temp.bottomAnchor, constant: 10),
-            prescriptionsLabel.centerXAnchor.constraint(equalTo: temp.leadingAnchor, constant: 0),
+            prescriptionsLabel.topAnchor.constraint(equalTo: tempLabel.bottomAnchor, constant: 10),
+            prescriptionsLabel.centerXAnchor.constraint(equalTo: tempLabel.leadingAnchor, constant: 0),
             
             tableView.topAnchor.constraint(equalTo: prescriptionsLabel.bottomAnchor, constant: 20),
             tableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0),

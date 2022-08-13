@@ -11,8 +11,7 @@ class ChooseDayCollectionView: UICollectionView {
     
     // MARK: - Initial properties
     var itemNames = [String]()
-    var didSelectItem: ((IndexPath)->())?
-
+    var didSelectItem: ((Int)->())?
 
     // MARK: - Life cycle
     init(){
@@ -23,35 +22,40 @@ class ChooseDayCollectionView: UICollectionView {
         backgroundColor = nil
         delegate = self
         dataSource = self
+        bounces = false
         
         register(ChooseDayCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: ChooseDayCollectionViewCell.self))
         layout.minimumLineSpacing = 10
         
         showsHorizontalScrollIndicator = false
         showsVerticalScrollIndicator = false
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    
+    // MARK: - Private methods
+    
+    
+    
+    // MARK: - Public methods
+    func selectToCurrentItem(){
+        selectItem(at: [0, 0], animated: true, scrollPosition: .centeredHorizontally)
+    }
 }
-
-// MARK: - Private methods
-
-
-
-// MARK: - Public methods
-
-
 
 // MARK: - Set UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 extension ChooseDayCollectionView: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        itemNames.count
+        return itemNames.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ChooseDayCollectionViewCell.self), for: indexPath) as? ChooseDayCollectionViewCell else {return UICollectionViewCell()}
+
         cell.nameLabel.text = itemNames[indexPath.row]
         return cell
     }
@@ -66,6 +70,6 @@ extension ChooseDayCollectionView: UICollectionViewDataSource, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let didSelectItem = didSelectItem else {return}
-        didSelectItem(indexPath)
+        didSelectItem(indexPath.item)
     }
 }

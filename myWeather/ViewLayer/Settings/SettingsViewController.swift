@@ -1,5 +1,5 @@
 //
-//  EditingViewController.swift
+//  SettingsViewController.swift
 //  myWeather
 //
 //  Created by Миша on 04.08.2022.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EditingViewController: UIViewController {
+class SettingsViewController: UIViewController {
   
     // MARK: - Initial properties
     private let backgroundImage: UIImageView = {
@@ -17,7 +17,7 @@ class EditingViewController: UIViewController {
         return imageView
     }()
     
-    private let settingsView = EditingSettingsView()
+    private let settingsView = SettingsMainView()
 
 
     // MARK: - Life cycle
@@ -45,7 +45,7 @@ class EditingViewController: UIViewController {
 
 }
 // MARK: - Set constraints
-extension EditingViewController {
+extension SettingsViewController {
     private func setConstraints(){
         NSLayoutConstraint.activate([
             settingsView.heightAnchor.constraint(equalToConstant: view.frame.size.height / 2.5),

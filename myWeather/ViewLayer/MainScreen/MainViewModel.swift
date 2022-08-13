@@ -16,8 +16,24 @@ class MainViewModel {
 
     // MARK: - Initial properties
     weak var delegate: SlideMenuButtonTapProtocol?
+    var outputSettings = UserDefaultsManager.shared.settings
     
     // MARK: - Public methods
+    func fetchWeatherData(completion: @escaping ((Bool)->())){
+        Task {
+            do {
+                let data = try await NetworkRequest.shared.requestData()
+                WeatherData.weatherData = data
+                completion(true)
+            } catch {
+                print(error)
+                completion(false)
+            }
+        }
+    }
+    
+    
+    
     func goToDetailVC(navigation: UIViewController){
         guard let weatherData = WeatherData.weatherData?.forecasts[0].hours else {return}
         let vc = DailyForecastViewController(weatherData: weatherData)

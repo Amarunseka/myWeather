@@ -10,6 +10,18 @@ import UIKit
 class ChooseDayCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Initial properties
+    override var isSelected: Bool {
+        didSet {
+            if self.isSelected {
+                backgroundColor = .specialDarkBlue
+                nameLabel.textColor = .white
+            } else {
+                backgroundColor = .white
+                nameLabel.textColor = .black
+            }
+        }
+    }
+    
     let nameLabel = UILabel.setBlackLabel(text: "__/__ __", fontSize: 16, fontStyle: .regular)
     
     // MARK: - Life cycle
@@ -32,7 +44,6 @@ class ChooseDayCollectionViewCell: UICollectionViewCell {
         backgroundColor = .clear
         contentView.backgroundColor = .clear
         layer.cornerRadius = 5
-        layer.borderWidth = 1
         layer.borderColor = UIColor.systemGray2.cgColor
         clipsToBounds = true
 

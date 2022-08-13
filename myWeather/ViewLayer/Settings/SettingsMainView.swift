@@ -1,5 +1,5 @@
 //
-//  EditingSettingsView.swift
+//  SettingsMainView.swift
 //  myWeather
 //
 //  Created by Миша on 07.08.2022.
@@ -7,12 +7,19 @@
 
 import UIKit
 
-class EditingSettingsView: UIView {
+enum SettingsNames: String {
+    case name = "setting"
+    case index = "index"
+    case state = "state"
+}
+
+class SettingsMainView: UIView {
    
     // MARK: - Initial properties
     private let settingsLabel = UILabel.setBlackLabel(text: "Settings", fontSize: 18, fontStyle: .medium)
-    private let tableView = EditingTableView()
+    private let tableView = SettingsTableView()
     private lazy var saveButton = UIButton.setButton(title: "SAVE SETTINGS", color: .specialOrange, fontSize: 18)
+    private var settings = UserDefaultsManager.shared.settings.first?.value
 
 
     // MARK: - Life cycle
@@ -20,6 +27,7 @@ class EditingSettingsView: UIView {
         super.init(frame: frame)
         setupView()
         setConstraints()
+        getNotification()
     }
     
     required init?(coder: NSCoder) {
@@ -42,9 +50,40 @@ class EditingSettingsView: UIView {
         }
     }
     
+    private func getNotification(){
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(changeSettingState),
+                                               name: Notification.Name("settingsChange"),
+                                               object: nil)
+    }
+    
+    @objc
+    private func changeSettingState(_ notification: NSNotification){
+        guard let data = notification.userInfo?["setting"] as? [String: Int],
+              let state = data["state"],
+              var setting = settings else {return}
+
+        switch data["index"] {
+        case 0:
+            setting.tempMode = state
+        case 1:
+            setting.windSpeedMode = state
+        case 2:
+            setting.timeFormatMode = state
+        case 3:
+            setting.sentNotifications = state
+        default:
+            print("Element not found")
+        }
+        self.settings = setting
+        print("Нотификация получена")
+    }
+    
     @objc
     private func didSaveButtonTap(){
-        print("didSaveButtonTap")
+        guard let data = settings else {return}
+        let userDefaults = UserDefaultsManager.shared
+        userDefaults.saveSettings(data)
     }
 
 
@@ -53,7 +92,7 @@ class EditingSettingsView: UIView {
 }
 
 // MARK: - Set constraints
-extension EditingSettingsView {
+extension SettingsMainView {
     private func setConstraints(){
         NSLayoutConstraint.activate([
             settingsLabel.topAnchor.constraint(equalTo: topAnchor, constant: 30),

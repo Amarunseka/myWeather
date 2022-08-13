@@ -19,8 +19,8 @@ class SevenDaysForecastTableViewCell: UITableViewCell {
             let icon = WeatherConditionIcons(iconName: data.parts.day.condition)
             precipitationsImageView.image = icon.icon
 
-            guard let max = data.parts.day.tempMax,
-                  let min = data.parts.night.tempMin else {return}
+            let max = Converter.convertDegreeScale(data.parts.day.tempMax ?? 00)
+            let min = Converter.convertDegreeScale(data.parts.night.tempMin ?? 00)
             tempLabel.text = "\(min)˚-\(max)˚"
         }
     }

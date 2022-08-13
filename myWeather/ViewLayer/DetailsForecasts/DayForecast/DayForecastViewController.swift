@@ -78,15 +78,17 @@ class DayForecastViewController: DetailsForecastCommonViewController {
             names.append($0.dateTs.toDate().toString(type: .shortAndWDDate))
         }
         chooseDayCollectionView.itemNames = names
-        chooseDayCollectionView.didSelectItem = { [weak self] indexPath in
+        chooseDayCollectionView.didSelectItem = { [weak self] index in
             guard let self = self else {return}
-            self.didTapCollectionItem(indexPath: indexPath)
+            self.didTapCollectionItem(index: index)
         }
         chooseDayCollectionView.reloadData()
+        chooseDayCollectionView.selectToCurrentItem()
     }
     
-    private func didTapCollectionItem(indexPath: IndexPath) {
-        
+    private func didTapCollectionItem(index: Int) {
+        dayForecastView.data = weatherData[index].parts.day
+        nightForecastView.data = weatherData[index].parts.night
     }
 
     // MARK: - Public methods

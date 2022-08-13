@@ -1,5 +1,5 @@
 //
-//  EditingTableViewCell.swift
+//  SettingsTableViewCell.swift
 //  myWeather
 //
 //  Created by Миша on 07.08.2022.
@@ -7,11 +7,11 @@
 
 import UIKit
 
-class EditingTableViewCell: UITableViewCell {
+class SettingsTableViewCell: UITableViewCell {
     // MARK: - Initial properties
-    var setting: EditingSettingsModel? {
+    var data: SettingsViewModel? {
         didSet {
-            guard let setting = setting else {return}
+            guard let setting = data else {return}
             nameLabel.text = setting.settingName
             stateOnTitle = setting.stateOnTitle
             stateOffTitle = setting.stateOffTitle
@@ -19,11 +19,12 @@ class EditingTableViewCell: UITableViewCell {
         }
     }
     
-    private let nameLabel = UILabel.setColorLabel(text: "", fontSize: 18, fontStyle: .regular, fontColor: .systemGray)
-    private var stateOnTitle = "On"
-    private var stateOffTitle = "Off"
-    private lazy var segmentedControl = UISegmentedControl()
-   
+    var sendSegmentedState: ((Int)->())?
+    
+    private let nameLabel = UILabel.setColorLabel(text: "__", fontSize: 18, fontStyle: .regular, fontColor: .systemGray)
+    private var stateOnTitle = "__"
+    private var stateOffTitle = "__"
+    lazy var segmentedControl = UISegmentedControl()   
     
     // MARK: - Life cycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -59,9 +60,10 @@ class EditingTableViewCell: UITableViewCell {
         segmentedControl.selectedSegmentTintColor = .specialDarkBlue
         segmentedControl.setTitleTextAttributes([.font: UIFont.rubik(size: 16, style: .regular) as Any,
                                                  .foregroundColor: UIColor.black], for: .normal)
+        
         segmentedControl.setTitleTextAttributes([.font: UIFont.rubik(size: 16, style: .regular) as Any,
                                                  .foregroundColor: UIColor.white], for: .selected)
-        
+        segmentedControl.addTarget(self, action: #selector(segmentedChange), for: .valueChanged)
         self.segmentedControl = segmentedControl
         [
             self.segmentedControl
@@ -69,6 +71,13 @@ class EditingTableViewCell: UITableViewCell {
             $0.translatesAutoresizingMaskIntoConstraints = false
             contentView.addSubview($0)
         }
+    }
+    
+    @objc
+    private func segmentedChange(){
+        guard let sendSegmentedState = sendSegmentedState else {return}
+        print(segmentedControl.selectedSegmentIndex)
+        sendSegmentedState(segmentedControl.selectedSegmentIndex)
     }
 }
 
@@ -78,7 +87,7 @@ class EditingTableViewCell: UITableViewCell {
 
 
 // MARK: - Set constraints
-extension EditingTableViewCell {
+extension SettingsTableViewCell {
     private func setConstraints(){
 
         NSLayoutConstraint.activate([

@@ -12,7 +12,7 @@ struct NetWeatherModel: Codable {
     let now: Int
     let nowDt: String
     let info: Info
-    let fact: Fact
+    var fact: Fact
     let forecasts: [Forecast]
 }
 
@@ -25,7 +25,7 @@ struct Info: Codable {
 
 // MARK: - Fact
 struct Fact: Codable {
-    let temp: Int
+    var temp: Int
     let feelsLike: Int
     let cloudness: Double
     let tempWater: Int?
@@ -114,6 +114,7 @@ struct PartOfTheDay: Codable {
     let precProb: Int
     let precStrength: Int
     let cloudness: Double
+    let uvIndex: Int?
 }
 
 
