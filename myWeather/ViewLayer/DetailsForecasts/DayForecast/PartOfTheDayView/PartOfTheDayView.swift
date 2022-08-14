@@ -56,7 +56,9 @@ class PartOfTheDayView: UIView {
                 ModelTableView(name: .feelsLike, condition: "\(feelsLike)˚"),
                 ModelTableView(name: .wind, condition: "\(wind) (\(data.windDir.uppercased()))"),
                 ModelTableView(name: .uvIndex, condition: "\(uvIndex)"),
-                ModelTableView(name: .rain, condition: "\(data.precStrength)%"),
+//                ModelTableView(name: .rain, condition: "\(data.precStrength)%"),
+                ModelTableView(name: .rain, condition: "%"),
+
                 ModelTableView(name: .cloudiness, condition: "\(Int(data.cloudness))"),
             ]
             tableView.data = array

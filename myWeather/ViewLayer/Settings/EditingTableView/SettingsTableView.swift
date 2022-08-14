@@ -38,7 +38,6 @@ class SettingsTableView: UITableView {
                                  "state" : state
                                 ]]
         NotificationCenter.default.post(name: Notification.Name("settingsChange"), object: nil, userInfo: userInfo)
-        print("Нотификация отправлена")
     }
 
 

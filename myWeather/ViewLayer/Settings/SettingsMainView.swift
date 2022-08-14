@@ -76,7 +76,6 @@ class SettingsMainView: UIView {
             print("Element not found")
         }
         self.settings = setting
-        print("Нотификация получена")
     }
     
     @objc

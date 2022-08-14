@@ -35,11 +35,9 @@ class UserDefaultsManager {
         do {
             let data = try encoder.encode(settings)
             defaults.setValue(data, forKey: "settings")
-            print("Настройки сохранились")
-
         }
         catch {
-            print("Ошибка кодирования", error)
+            print("Coding error", error)
         }
     }
     
@@ -51,7 +49,7 @@ class UserDefaultsManager {
             settings = try decoder.decode([String: SettingsModel].self, from: data)
         }
         catch {
-            print("Ошибка декодирования", error)
+            print("Coding error", error)
         }
     }
 }

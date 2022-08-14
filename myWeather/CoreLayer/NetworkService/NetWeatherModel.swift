@@ -112,7 +112,7 @@ struct PartOfTheDay: Codable {
     let precMm: Double
     let precPeriod: Int
     let precProb: Int
-    let precStrength: Int
+//    let precStrength: Int?
     let cloudness: Double
     let uvIndex: Int?
 }

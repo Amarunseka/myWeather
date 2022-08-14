@@ -17,12 +17,13 @@ class MainViewModel {
     // MARK: - Initial properties
     weak var delegate: SlideMenuButtonTapProtocol?
     var outputSettings = UserDefaultsManager.shared.settings
+    var coordinates = LocalCoordinates()
     
     // MARK: - Public methods
     func fetchWeatherData(completion: @escaping ((Bool)->())){
         Task {
             do {
-                let data = try await NetworkRequest.shared.requestData()
+                let data = try await NetworkRequest.shared.requestWeatherData()
                 WeatherData.weatherData = data
                 completion(true)
             } catch {

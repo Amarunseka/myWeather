@@ -16,8 +16,8 @@ class HoursForecastCollectionViewCell: UICollectionViewCell {
             let mode = UserDefaultsManager.shared.settings.first?.value.timeFormatMode
             var time = ""
             mode == 0
-            ? (time = (data.hourTs - 10800).toDate().toString(type: .hour))
-            : (time = "\((data.hourTs - 10800).toDate().toString(type: .hour)):00")
+            ? (time = (data.hourTs).toDate().toString(type: .hour))
+            : (time = "\((data.hourTs).toDate().toString(type: .hour)):00")
             timeLabel.text = "\(time)"
             
             let temp = Converter.convertDegreeScale(data.temp)

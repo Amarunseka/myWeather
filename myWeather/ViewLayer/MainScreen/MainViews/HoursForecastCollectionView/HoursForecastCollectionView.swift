@@ -12,6 +12,7 @@ class HoursForecastCollectionView: UICollectionView {
     // MARK: - Initial properties
     let cellWidth: CGFloat
     var hoursForecasts = [Hour]()
+    
 
     // MARK: - Life cycle
     init(cellWidth: CGFloat){
@@ -29,6 +30,7 @@ class HoursForecastCollectionView: UICollectionView {
         
         showsHorizontalScrollIndicator = false
         showsVerticalScrollIndicator = false
+        selectToCurrentItem()
     }
     
     required init?(coder: NSCoder) {
@@ -39,13 +41,22 @@ class HoursForecastCollectionView: UICollectionView {
     
     // MARK: - Public methods
     func selectToCurrentItem(){
-        if let currentHour = Int(Date().toString(type: .hour).dropLast(3)),
-           !hoursForecasts.isEmpty {
-            selectItem(at: [0, currentHour], animated: true, scrollPosition: .centeredHorizontally)
-            scrollToItem(at: [0, currentHour], at: .centeredHorizontally, animated: false)
+        let currentHour: Int?
+        if let wind = UserDefaultsManager.shared.settings.first?.value,
+           wind.timeFormatMode == 0 {
+            currentHour = Int(Date().toString(type: .hour).dropLast(3))
+        } else {
+            currentHour = Int(Date().toString(type: .hour))
         }
+        
+        guard let currentHour = currentHour,
+              !hoursForecasts.isEmpty else {return }
+        
+        selectItem(at: [0, currentHour], animated: true, scrollPosition: .centeredHorizontally)
+        scrollToItem(at: [0, currentHour], at: .centeredHorizontally, animated: false)
     }
 }
+
 
 // MARK: - Set UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 extension HoursForecastCollectionView: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

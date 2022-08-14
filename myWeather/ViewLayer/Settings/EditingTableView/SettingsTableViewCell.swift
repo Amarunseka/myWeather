@@ -76,7 +76,6 @@ class SettingsTableViewCell: UITableViewCell {
     @objc
     private func segmentedChange(){
         guard let sendSegmentedState = sendSegmentedState else {return}
-        print(segmentedControl.selectedSegmentIndex)
         sendSegmentedState(segmentedControl.selectedSegmentIndex)
     }
 }
