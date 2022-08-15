@@ -34,6 +34,20 @@ class NetworkRequest {
         print("latitude \(coordinates.latitude)\nlongitude \(coordinates.longitude)")
         guard let url = URL(string: urlString) else {throw NetErrors.wrongURL}
         
+        
+        
+//        /// получение ответа в формате типа JSON (погода)
+//        AF.request(url, method: .get, headers: headers).responseJSON { response in
+//            switch response.result {
+//            case .success(_):
+//                print(response)
+//            case .failure(let error):
+//                print(error)
+//            }
+//        }
+        
+        
+        
         return try await AF.request(url, method: .get, headers: headers).serializingDecodable(NetWeatherModel.self, decoder: decoder).value
     }
     
@@ -67,5 +81,6 @@ class NetworkRequest {
 
         return try await AF.request(urlCoder, method: .get).serializingDecodable(CityInfoModel.self).value
     }
-
+    
+    
 }

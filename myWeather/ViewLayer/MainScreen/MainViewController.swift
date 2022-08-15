@@ -11,10 +11,6 @@ class MainViewController: UIViewController {
 
     // MARK: - Initial properties
     let viewModel = MainViewModel()
-   
-    private var hoursForecasts = [Hour]()
-    private var daysForecasts = [Forecast]()
-    private let currentWeatherView = CurrentWeatherView()
     
     private lazy var detailFor24HoursButton: UIButton = {
         let button = UIButton(type: .system)
@@ -27,6 +23,7 @@ class MainViewController: UIViewController {
     }()
     
     // попробовать сделать структуру с размерами и оттуда брать
+    private let currentWeatherView = CurrentWeatherView()
     private lazy var hoursForecastCollectionView = HoursForecastCollectionView(cellWidth: self.view.frame.size.width / 9)
     private let dailyForecastLabel = UILabel.setBlackLabel(text: "Daily forecast", fontSize: 22, fontStyle: .medium)
     private let sevenDaysForecastTableView = SevenDaysForecastTableView()
@@ -73,7 +70,6 @@ class MainViewController: UIViewController {
     }
     
     private func setupNavigationBar(){
-        self.title = "Moscow, Russia"
 
         let slideMenuButton: UIButton = {
             let button = UIButton(type: .system)

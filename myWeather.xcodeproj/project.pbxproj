@@ -74,6 +74,7 @@
 		45D3482E289C0A7300F13A40 /* ChoseLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D3482D289C0A7300F13A40 /* ChoseLocationViewController.swift */; };
 		45D34831289C43B500F13A40 /* HoursForecastCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D34830289C43B500F13A40 /* HoursForecastCollectionView.swift */; };
 		45D34834289C45CC00F13A40 /* HoursForecastCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D34833289C45CC00F13A40 /* HoursForecastCollectionViewCell.swift */; };
+		45D71C5D28AA1D98000A1AB4 /* MainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D71C5C28AA1D98000A1AB4 /* MainPageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -145,6 +146,7 @@
 		45D3482D289C0A7300F13A40 /* ChoseLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoseLocationViewController.swift; sourceTree = "<group>"; };
 		45D34830289C43B500F13A40 /* HoursForecastCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursForecastCollectionView.swift; sourceTree = "<group>"; };
 		45D34833289C45CC00F13A40 /* HoursForecastCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursForecastCollectionViewCell.swift; sourceTree = "<group>"; };
+		45D71C5C28AA1D98000A1AB4 /* MainPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -264,6 +266,7 @@
 			children = (
 				45CFD43928A0F57E008325E4 /* OnBoarding */,
 				45D34821289BCF7400F13A40 /* SlideMenu */,
+				45D71C5B28AA1D5D000A1AB4 /* PageViewController */,
 				45D347FC289A5F0B00F13A40 /* MainScreen */,
 				45CFD42B289EF21D008325E4 /* DetailsForecasts */,
 				45D3482C289C0A4000F13A40 /* ChoseLocation */,
@@ -513,6 +516,14 @@
 			path = HoursForecastCollectionView;
 			sourceTree = "<group>";
 		};
+		45D71C5B28AA1D5D000A1AB4 /* PageViewController */ = {
+			isa = PBXGroup;
+			children = (
+				45D71C5C28AA1D98000A1AB4 /* MainPageViewController.swift */,
+			);
+			path = PageViewController;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -629,6 +640,7 @@
 				45CFD427289D0AA4008325E4 /* DailyForecastTableViewCell.swift in Sources */,
 				45554FAA28A196C70008F06B /* DailyForecastDetailsView.swift in Sources */,
 				45CFD42F28A0405D008325E4 /* SettingsMainView.swift in Sources */,
+				45D71C5D28AA1D98000A1AB4 /* MainPageViewController.swift in Sources */,
 				456F77C128A0FB4200AAF3A1 /* UIButtonExtension.swift in Sources */,
 				45D34831289C43B500F13A40 /* HoursForecastCollectionView.swift in Sources */,
 				45CFD42A289DA6F1008325E4 /* DayForecastViewController.swift in Sources */,

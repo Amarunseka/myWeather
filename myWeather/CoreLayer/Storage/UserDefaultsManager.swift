@@ -7,13 +7,13 @@
 
 import Foundation
 
-enum CurentPresentation {
-    case temp
-    case wind
-    case time
-    
-    
+enum UserDefaultsNames: String {
+    case settings = "settings"
+    case cities = "cities"
 }
+
+
+
 
 class UserDefaultsManager {
     private lazy var defaults = UserDefaults.standard

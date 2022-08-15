@@ -67,10 +67,10 @@ struct Hour: Codable {
     let humidity: Int
     let icon: String
     let isThunder: Bool
-    let precMm: Int?
+//    let precMm: Int? // с этим не ищет зарубежом
     let precPeriod: Int
     let precProb: Int
-    let precStrength: Int
+//    let precStrength: Int // с этим не ищет зарубежом
     let precType: Int
     let pressureMm: Int
     let pressurePa: Int
@@ -112,7 +112,7 @@ struct PartOfTheDay: Codable {
     let precMm: Double
     let precPeriod: Int
     let precProb: Int
-//    let precStrength: Int?
+//    let precStrength: Int? // с этим не ищет зарубежом
     let cloudness: Double
     let uvIndex: Int?
 }

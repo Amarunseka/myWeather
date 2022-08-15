@@ -28,7 +28,7 @@ class DailyForecastTableViewCell: UITableViewCell {
             let wind = Converter.convertWindSpeed(data.windSpeed)
             windView.descriptionLabel?.text = "\(wind) (\(data.windDir.uppercased()))"
             
-            precipitationsView.descriptionLabel?.text = "\(data.precStrength * 100)%"
+//            precipitationsView.descriptionLabel?.text = "\(data.precStrength * 100)%"
             cloudyView.descriptionLabel?.text = "\(Int(data.cloudness * 100))%"
         }
     }
