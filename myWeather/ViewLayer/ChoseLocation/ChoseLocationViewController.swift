@@ -57,6 +57,8 @@ class ChoseLocationViewController: UIViewController {
                 let (longitude, latitude, address) = self.convertCityInfo(data: cityInfo)
                 let weatherData = try await NetworkRequest.shared.requestSpecificCityWeatherData(latitude: latitude, longitude: longitude)
                 print(address, weatherData.info.url)
+                let data = UserDefaultsCityModel(location: address, latitude: latitude, longitude: longitude)
+                UserDefaultsManager.shared.saveCities(data)
             } catch {
                 print(error)
             }

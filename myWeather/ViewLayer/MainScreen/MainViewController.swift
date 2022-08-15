@@ -32,16 +32,36 @@ class MainViewController: UIViewController {
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.fetchWeatherData { result in
+//        viewModel.fetchWeatherData { result in
+//            if result {
+//                guard let weatherData = WeatherData.weatherData else {return}
+//                DispatchQueue.main.async {
+//                    self.setParametersCurrenWeatherView(data: weatherData)
+//                    self.setParametersHoursForecastCollectionView(data: weatherData.forecasts[0].hours)
+//                    self.setParametersSevenDaysForecastTableView(data: weatherData.forecasts)
+//                }
+//            }
+//        }
+ 
+        
+        viewModel.fetchSpecificWeatherData {city, result in
             if result {
                 guard let weatherData = WeatherData.weatherData else {return}
                 DispatchQueue.main.async {
+                    self.title = city?.location
+                    print(weatherData.info.url)
                     self.setParametersCurrenWeatherView(data: weatherData)
                     self.setParametersHoursForecastCollectionView(data: weatherData.forecasts[0].hours)
                     self.setParametersSevenDaysForecastTableView(data: weatherData.forecasts)
                 }
             }
         }
+        
+        let asd = UserDefaultsManager.shared.cities
+        asd[.cities]?.forEach{
+            print($0.location)
+        }
+        
         setupView()
         setConstraints()
     }

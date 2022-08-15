@@ -62,7 +62,6 @@ class NetworkRequest {
         
         let key = "b2b504f2-d533-4bae-82a4-3568857596b6"
         let headers = HTTPHeaders(["X-Yandex-API-Key" : "\(key)"])
-        
         let urlString = "https://api.weather.yandex.ru/v2/forecast?lat=\(latitude)&lon=\(longitude)&lang=ru_RU&limit=7&hours=true&extra=true"
         
         guard let url = URL(string: urlString) else {throw NetErrors.wrongURL}

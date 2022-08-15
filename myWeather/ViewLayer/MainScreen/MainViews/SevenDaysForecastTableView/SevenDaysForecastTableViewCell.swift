@@ -17,6 +17,7 @@ class SevenDaysForecastTableViewCell: UITableViewCell {
             descriptionWeatherLabel.text = data.parts.day.condition
             
             let icon = WeatherConditionIcons(iconName: data.parts.day.condition)
+            print(data.parts.day.condition)
             precipitationsImageView.image = icon.icon
 
             let max = Converter.convertDegreeScale(data.parts.day.tempMax ?? 00)

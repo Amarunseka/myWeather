@@ -18,6 +18,9 @@ class MainViewModel {
     weak var delegate: SlideMenuButtonTapProtocol?
     var outputSettings = UserDefaultsManager.shared.settings
     var coordinates = LocalCoordinates()
+    var cities = UserDefaultsManager.shared.cities
+    
+    
     
     // MARK: - Public methods
     func fetchWeatherData(completion: @escaping ((Bool)->())){
@@ -29,6 +32,21 @@ class MainViewModel {
             } catch {
                 print(error)
                 completion(false)
+            }
+        }
+    }
+    
+    func fetchSpecificWeatherData(completion: @escaping ((UserDefaultsCityModel?, Bool)->())){
+        guard cities[.cities]?.count != 0,
+              let citiesData = cities[.cities]?[0] else {return}
+        Task {
+            do {
+                let data = try await NetworkRequest.shared.requestSpecificCityWeatherData(latitude: citiesData.latitude, longitude: citiesData.longitude)
+                WeatherData.weatherData = data
+                completion(citiesData, true)
+            } catch {
+                print(error)
+                completion(nil, false)
             }
         }
     }

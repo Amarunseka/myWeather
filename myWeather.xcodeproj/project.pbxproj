@@ -13,7 +13,7 @@
 		453763E628A29F77007DB1A0 /* WeatherDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453763E528A29F77007DB1A0 /* WeatherDataStorage.swift */; };
 		453763EB28A4F1A1007DB1A0 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453763EA28A4F1A1007DB1A0 /* DateExtension.swift */; };
 		453763ED28A57906007DB1A0 /* SlideMenuContainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453763EC28A57906007DB1A0 /* SlideMenuContainerViewModel.swift */; };
-		453763F228A63A4D007DB1A0 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453763F128A63A4D007DB1A0 /* SettingsModel.swift */; };
+		453763F228A63A4D007DB1A0 /* UserDefaultsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453763F128A63A4D007DB1A0 /* UserDefaultsModels.swift */; };
 		453763F628A63BF1007DB1A0 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453763F528A63BF1007DB1A0 /* StringExtension.swift */; };
 		453763FA28A63FC8007DB1A0 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453763F928A63FC8007DB1A0 /* UserDefaultsManager.swift */; };
 		453763FD28A6A6DD007DB1A0 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453763FC28A6A6DD007DB1A0 /* Converter.swift */; };
@@ -84,7 +84,7 @@
 		453763E528A29F77007DB1A0 /* WeatherDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataStorage.swift; sourceTree = "<group>"; };
 		453763EA28A4F1A1007DB1A0 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		453763EC28A57906007DB1A0 /* SlideMenuContainerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideMenuContainerViewModel.swift; sourceTree = "<group>"; };
-		453763F128A63A4D007DB1A0 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
+		453763F128A63A4D007DB1A0 /* UserDefaultsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsModels.swift; sourceTree = "<group>"; };
 		453763F528A63BF1007DB1A0 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		453763F928A63FC8007DB1A0 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		453763FC28A6A6DD007DB1A0 /* Converter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Converter.swift; sourceTree = "<group>"; };
@@ -165,8 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				453763E528A29F77007DB1A0 /* WeatherDataStorage.swift */,
-				453763F128A63A4D007DB1A0 /* SettingsModel.swift */,
-				453763F928A63FC8007DB1A0 /* UserDefaultsManager.swift */,
+				45D71C5E28AACE42000A1AB4 /* UserDefaults */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -524,6 +523,15 @@
 			path = PageViewController;
 			sourceTree = "<group>";
 		};
+		45D71C5E28AACE42000A1AB4 /* UserDefaults */ = {
+			isa = PBXGroup;
+			children = (
+				453763F928A63FC8007DB1A0 /* UserDefaultsManager.swift */,
+				453763F128A63A4D007DB1A0 /* UserDefaultsModels.swift */,
+			);
+			path = UserDefaults;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -619,7 +627,7 @@
 				45CFD422289D093E008325E4 /* DailyForecastViewController.swift in Sources */,
 				45CFD41D289C619C008325E4 /* SevenDaysForecastTableView.swift in Sources */,
 				453763E628A29F77007DB1A0 /* WeatherDataStorage.swift in Sources */,
-				453763F228A63A4D007DB1A0 /* SettingsModel.swift in Sources */,
+				453763F228A63A4D007DB1A0 /* UserDefaultsModels.swift in Sources */,
 				45D34834289C45CC00F13A40 /* HoursForecastCollectionViewCell.swift in Sources */,
 				45D3482B289C088500F13A40 /* SettingsViewController.swift in Sources */,
 				45554FB728A25BF00008F06B /* SunAndMoonView.swift in Sources */,
