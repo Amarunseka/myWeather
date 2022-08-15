@@ -3,7 +3,7 @@
 //  WeatherApp
 //
 //  Created by Миша on 02.08.2022.
-//
+///
 
 import Foundation
 
