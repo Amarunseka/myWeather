@@ -44,5 +44,19 @@ class SlideMenuContainerViewModel {
             }
         }
     }
+    
+    
+    // ТУТ ИЗ ЗА ТОГО ЧТО СТАЮТСЯ ТАБ БАР АЙТЕМ ВОЗМОЖНО НУЖНО СДЕЛАТЬ ФУНКЦИЮ ВОЗВРАТА
+    func goToNewVC(mainVC: UIViewController, currentVC: inout UIViewController, newVC: UIViewController){
+        currentVC.view.removeFromSuperview()
+        currentVC.didMove(toParent: nil)
 
+        let vc = newVC
+        mainVC.addChild(vc)
+        mainVC.view.addSubview(vc.view)
+        newVC.view.frame = mainVC.view.frame
+        newVC.didMove(toParent: mainVC)
+        mainVC.title = newVC.title
+        currentVC = newVC
+    }
 }

@@ -39,7 +39,7 @@ class SlideMenuViewModel {
             case .mainScreenVC:
                 return MainViewController()
             case .editing:
-                return EditingViewController()
+                return SettingsViewController()
             case .location:
                 return ChoseLocationViewController()
 

@@ -17,17 +17,22 @@ class DailyForecastTableViewCell: UITableViewCell {
 
             dateLabel.text = date.toString(type: .shortDate)
             //ЕСЛИ ВРЕМЯ ВЕЧЕРА ПОМЕНЯТЬ ИКОНКУ НА НОЧНУЮ
-            timeLabel.text = date.toString(type: .time)
-            tempLabel.text = "\(data.temp)˚"
             
-            feelsLikeView.nameLabel.text = "Mostly \(data.temp)˚ - Feels like \(data.feelsLike)˚"
-            windView.descriptionLabel?.text = "\(data.windSpeed) m/s (\(data.windDir.uppercased()))"
-            precipitationsView.descriptionLabel?.text = "\(data.precStrength * 100)%"
+            timeLabel.text = date.toString(type: .time)
+            
+            let temp = Converter.convertDegreeScale(data.temp)
+            let feelsLike = Converter.convertDegreeScale(data.feelsLike)
+            tempLabel.text = "\(temp)˚"
+            feelsLikeView.nameLabel.text = "Mostly \(temp)˚ - Feels like \(feelsLike)˚"
+            
+            let wind = Converter.convertWindSpeed(data.windSpeed)
+            windView.descriptionLabel?.text = "\(wind) (\(data.windDir.uppercased()))"
+            
+//            precipitationsView.descriptionLabel?.text = "\(data.precStrength * 100)%"
             cloudyView.descriptionLabel?.text = "\(Int(data.cloudness * 100))%"
         }
     }
-  
-    
+
     private let dateLabel = UILabel.setBlackLabel(text: "", fontSize: 16, fontStyle: .medium)
     private let timeLabel = UILabel.setColorLabel(text: "", fontSize: 12, fontStyle: .regular, fontColor: .systemGray)
     private let tempLabel = UILabel.setBlackLabel(text: "", fontSize: 16, fontStyle: .medium)

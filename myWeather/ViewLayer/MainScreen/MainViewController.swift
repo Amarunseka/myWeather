@@ -11,9 +11,6 @@ class MainViewController: UIViewController {
 
     // MARK: - Initial properties
     let viewModel = MainViewModel()
-    private var hoursForecasts = [Hour]()
-    private var daysForecasts = [Forecast]()
-    private let currentWeatherView = CurrentWeatherView()
     
     private lazy var detailFor24HoursButton: UIButton = {
         let button = UIButton(type: .system)
@@ -26,6 +23,7 @@ class MainViewController: UIViewController {
     }()
     
     // попробовать сделать структуру с размерами и оттуда брать
+    private let currentWeatherView = CurrentWeatherView()
     private lazy var hoursForecastCollectionView = HoursForecastCollectionView(cellWidth: self.view.frame.size.width / 9)
     private let dailyForecastLabel = UILabel.setBlackLabel(text: "Daily forecast", fontSize: 22, fontStyle: .medium)
     private let sevenDaysForecastTableView = SevenDaysForecastTableView()
@@ -34,7 +32,16 @@ class MainViewController: UIViewController {
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchData()
+        viewModel.fetchWeatherData { result in
+            if result {
+                guard let weatherData = WeatherData.weatherData else {return}
+                DispatchQueue.main.async {
+                    self.setParametersCurrenWeatherView(data: weatherData)
+                    self.setParametersHoursForecastCollectionView(data: weatherData.forecasts[0].hours)
+                    self.setParametersSevenDaysForecastTableView(data: weatherData.forecasts)
+                }
+            }
+        }
         setupView()
         setConstraints()
     }
@@ -44,6 +51,7 @@ class MainViewController: UIViewController {
     private func setupView() {
         self.view.backgroundColor = .white
         setupNavigationBar()
+
         
         [currentWeatherView,
          detailFor24HoursButton,
@@ -62,7 +70,6 @@ class MainViewController: UIViewController {
     }
     
     private func setupNavigationBar(){
-        self.title = "Moscow, Russia"
 
         let slideMenuButton: UIButton = {
             let button = UIButton(type: .system)
@@ -104,20 +111,7 @@ class MainViewController: UIViewController {
     private func goToDayForecast(indexPath: IndexPath) {
         viewModel.goToDayForecast(navigation: self)
     }
-    
-    // ВО ВЬЮ МОДЕЛЬ
-    private func fetchData(){
-        Task {
-            let data = try await NetworkRequest.shared.requestData()
-            WeatherData.weatherData = data
-            
-            guard let weatherData = WeatherData.weatherData else {return}
-            self.setParametersCurrenWeatherView(data: weatherData)
-            self.setParametersHoursForecastCollectionView(data: weatherData.forecasts[0].hours)
-            self.setParametersSevenDaysForecastTableView(data: weatherData.forecasts)
-        }
-    }
-    
+
     private func setParametersCurrenWeatherView(data:NetWeatherModel) {
         currentWeatherView.data = data
     }
@@ -125,6 +119,7 @@ class MainViewController: UIViewController {
     private func setParametersHoursForecastCollectionView(data: [Hour]) {
         self.hoursForecastCollectionView.hoursForecasts = data
         self.hoursForecastCollectionView.reloadData()
+        self.hoursForecastCollectionView.selectToCurrentItem()
     }
     
     private func setParametersSevenDaysForecastTableView(data: [Forecast]) {

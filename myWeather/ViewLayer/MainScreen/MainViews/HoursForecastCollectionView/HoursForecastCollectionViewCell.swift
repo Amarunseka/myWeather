@@ -13,11 +13,32 @@ class HoursForecastCollectionViewCell: UICollectionViewCell {
     var data: Hour? {
         didSet {
             guard let data = data else {return}
-            timeLabel.text = "\(data.hour):00"
-            tempLabel.text = "\(data.temp)˚"
+            let mode = UserDefaultsManager.shared.settings.first?.value.timeFormatMode
+            var time = ""
+            mode == 0
+            ? (time = (data.hourTs).toDate().toString(type: .hour))
+            : (time = "\((data.hourTs).toDate().toString(type: .hour)):00")
+            timeLabel.text = "\(time)"
+            
+            let temp = Converter.convertDegreeScale(data.temp)
+            tempLabel.text = "\(temp)˚"
             
             let icon = WeatherConditionIcons(iconName: data.condition)
             precipitationsImageView.image = icon.icon
+        }
+    }
+    
+    override var isSelected: Bool {
+        didSet {
+            if self.isSelected {
+                backgroundColor = .specialDarkBlue
+                timeLabel.textColor = .white
+                tempLabel.textColor = .white
+            } else {
+                backgroundColor = .white
+                timeLabel.textColor = .black
+                tempLabel.textColor = .black
+            }
         }
     }
     

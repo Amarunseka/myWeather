@@ -16,14 +16,19 @@ class CurrentWeatherView: UIView {
             currentTimeAndDateLabel.text = data.now.toDate().toString(type: .fullDate)
             sunriseTimeLabel.text = data.forecasts[0].sunrise
             sunsetTimeLabel.text = data.forecasts[0].sunset
-            currentTempLabel.text = "\(data.fact.temp)˚"
+            
+            let temp = Converter.convertDegreeScale(data.fact.temp)
+            currentTempLabel.text = "\(temp)˚"
+            
             conditionLabel.text = data.fact.condition
             precipitationConditionLabel.text = "\(data.fact.cloudness)"
-            windConditionLabel.text = "\(Int(data.fact.windSpeed)) m/c"
+            
+            let windSpeed = Converter.convertWindSpeed(data.fact.windSpeed)
+            windConditionLabel.text = windSpeed
             humidityConditionLabel.text = "\(data.fact.humidity)%"
             
-            guard let min = data.forecasts[0].parts.night.tempMin,
-                  let max = data.forecasts[0].parts.day.tempMax else {return}
+            let min = Converter.convertDegreeScale(data.forecasts[0].parts.night.tempMin ?? 00)
+            let max = Converter.convertDegreeScale(data.forecasts[0].parts.day.tempMax ?? 00)
             minMaxTempLabel.text = "\(min)˚/\(max)˚"
             
             let icon = WeatherConditionIcons(iconName: data.fact.condition)
@@ -42,15 +47,15 @@ class CurrentWeatherView: UIView {
     private let humidityConditionImageView = UIImageView.setImage("humidityIcon")
 
     /// Labels
-    private let sunriseTimeLabel = UILabel.setWhiteLabel(text: "", fontSize: 14, fontStyle: .regular)
-    private let sunsetTimeLabel = UILabel.setWhiteLabel(text: "", fontSize: 14, fontStyle: .regular)
-    private let minMaxTempLabel = UILabel.setWhiteLabel(text: "", fontSize: 16, fontStyle: .regular)
-    private let currentTempLabel = UILabel.setWhiteLabel(text: "", fontSize: 36, fontStyle: .medium)
-    private let conditionLabel = UILabel.setWhiteLabel(text: "", fontSize: 14, fontStyle: .regular)
-    private let precipitationConditionLabel = UILabel.setWhiteLabel(text: "", fontSize: 14, fontStyle: .regular)
-    private let windConditionLabel = UILabel.setWhiteLabel(text: "", fontSize: 14, fontStyle: .regular)
-    private let humidityConditionLabel = UILabel.setWhiteLabel(text: "", fontSize: 14, fontStyle: .regular)
-    private let currentTimeAndDateLabel = UILabel.setColorLabel(text: "", fontSize: 16, fontStyle: .regular, fontColor: .yellow)
+    private let sunriseTimeLabel = UILabel.setWhiteLabel(text: "__:__", fontSize: 14, fontStyle: .regular)
+    private let sunsetTimeLabel = UILabel.setWhiteLabel(text: "__:__", fontSize: 14, fontStyle: .regular)
+    private let minMaxTempLabel = UILabel.setWhiteLabel(text: "__˚__˚", fontSize: 16, fontStyle: .regular)
+    private let currentTempLabel = UILabel.setWhiteLabel(text: "__˚", fontSize: 36, fontStyle: .medium)
+    private let conditionLabel = UILabel.setWhiteLabel(text: "...", fontSize: 14, fontStyle: .regular)
+    private let precipitationConditionLabel = UILabel.setWhiteLabel(text: "_._", fontSize: 14, fontStyle: .regular)
+    private let windConditionLabel = UILabel.setWhiteLabel(text: "__ m/s", fontSize: 14, fontStyle: .regular)
+    private let humidityConditionLabel = UILabel.setWhiteLabel(text: "__%", fontSize: 14, fontStyle: .regular)
+    private let currentTimeAndDateLabel = UILabel.setColorLabel(text: "__:__, ...", fontSize: 16, fontStyle: .regular, fontColor: .yellow)
 
     // MARK: - Life cycle
     init(){        
