@@ -10,7 +10,7 @@ import UIKit
 class MainViewController: UIViewController {
 
     // MARK: - Initial properties
-    let viewModel = MainViewModel()
+    let viewModel: MainViewModel
     
     private lazy var detailFor24HoursButton: UIButton = {
         let button = UIButton(type: .system)
@@ -30,8 +30,19 @@ class MainViewController: UIViewController {
 
 
     // MARK: - Life cycle
+    init(viewModel: MainViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
 //        viewModel.fetchWeatherData { result in
 //            if result {
 //                guard let weatherData = WeatherData.weatherData else {return}
@@ -44,12 +55,11 @@ class MainViewController: UIViewController {
 //        }
  
         
-        viewModel.fetchSpecificWeatherData {city, result in
+        viewModel.fetchSpecificWeatherData { [weak self] result in
+            guard let self = self else {return}
             if result {
                 guard let weatherData = WeatherData.weatherData else {return}
                 DispatchQueue.main.async {
-                    self.title = city?.location
-                    print(weatherData.info.url)
                     self.setParametersCurrenWeatherView(data: weatherData)
                     self.setParametersHoursForecastCollectionView(data: weatherData.forecasts[0].hours)
                     self.setParametersSevenDaysForecastTableView(data: weatherData.forecasts)
@@ -57,6 +67,7 @@ class MainViewController: UIViewController {
             }
         }
         
+        // УДАЛИТЬ!!!!
         let asd = UserDefaultsManager.shared.cities
         asd[.cities]?.forEach{
             print($0.location)
@@ -70,8 +81,7 @@ class MainViewController: UIViewController {
     // MARK: - Private methods
     private func setupView() {
         self.view.backgroundColor = .white
-        setupNavigationBar()
-
+//        setupNavigationBar()
         
         [currentWeatherView,
          detailFor24HoursButton,
@@ -89,39 +99,39 @@ class MainViewController: UIViewController {
         }
     }
     
-    private func setupNavigationBar(){
-
-        let slideMenuButton: UIButton = {
-            let button = UIButton(type: .system)
-            let image = UIImage(named: "slideMenuIcon")
-            button.frame = CGRect(x: 0, y: 0, width: 30, height: 16)
-            button.setBackgroundImage(image, for: .normal)
-            button.addTarget(self, action: #selector(didSlideMenuTap), for: .touchUpInside)
-            return button
-        }()
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: slideMenuButton)
-        
-        
-        let geolocationButton: UIButton = {
-            let button = UIButton(type: .system)
-            let image = UIImage(named: "geolocationIcon")
-            button.frame = CGRect(x: 0, y: 0, width: 20, height: 16)
-            button.setBackgroundImage(image, for: .normal)
-            button.addTarget(self, action: #selector(didGeolocationTap), for: .touchUpInside)
-            return button
-        }()
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: geolocationButton)
-    }
-
-    @objc
-    private func didSlideMenuTap(){
-        viewModel.delegate?.didTapSlideMenu()
-    }
-    
-    @objc
-    private func didGeolocationTap(){
-        print("didGeolocationTap")
-    }
+//    private func setupNavigationBar(){
+//
+//        let slideMenuButton: UIButton = {
+//            let button = UIButton(type: .system)
+//            let image = UIImage(named: "slideMenuIcon")
+//            button.frame = CGRect(x: 0, y: 0, width: 30, height: 16)
+//            button.setBackgroundImage(image, for: .normal)
+//            button.addTarget(self, action: #selector(didSlideMenuTap), for: .touchUpInside)
+//            return button
+//        }()
+//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: slideMenuButton)
+//        
+//        
+//        let geolocationButton: UIButton = {
+//            let button = UIButton(type: .system)
+//            let image = UIImage(named: "geolocationIcon")
+//            button.frame = CGRect(x: 0, y: 0, width: 20, height: 16)
+//            button.setBackgroundImage(image, for: .normal)
+//            button.addTarget(self, action: #selector(didGeolocationTap), for: .touchUpInside)
+//            return button
+//        }()
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: geolocationButton)
+//    }
+//
+//    @objc
+//    private func didSlideMenuTap(){
+//        viewModel.delegate?.didTapSlideMenu()
+//    }
+//    
+//    @objc
+//    private func didGeolocationTap(){
+//        print("didGeolocationTap")
+//    }
     
     @objc
     private func didDetailButtonTapp(){

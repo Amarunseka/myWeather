@@ -10,7 +10,7 @@ import UIKit
 
 class DetailsForecastCommonViewController: UIViewController {
     // MARK: - Initial properties
-    let titleLabel = UILabel.setBlackLabel(text: "Moscow, Russia", fontSize: 18, fontStyle: .regular)
+    let titleLabel = UILabel.setBlackLabel(text: "", fontSize: 18, fontStyle: .regular)
     
     lazy var goBackButton: UIButton = {
         let button = UIButton(type: .system)

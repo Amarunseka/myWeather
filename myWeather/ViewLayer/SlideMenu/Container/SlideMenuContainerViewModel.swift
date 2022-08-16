@@ -14,6 +14,10 @@ enum SlideMenuState {
 class SlideMenuContainerViewModel {
     
     private var slideMenuState: SlideMenuState = .closed
+    
+    
+    init(){
+    }
 
     func toggleSlideMenu(navVC: UINavigationController, vc: UIViewController) {
         switch slideMenuState {
@@ -47,16 +51,25 @@ class SlideMenuContainerViewModel {
     
     
     // ТУТ ИЗ ЗА ТОГО ЧТО СТАЮТСЯ ТАБ БАР АЙТЕМ ВОЗМОЖНО НУЖНО СДЕЛАТЬ ФУНКЦИЮ ВОЗВРАТА
-    func goToNewVC(mainVC: UIViewController, currentVC: inout UIViewController, newVC: UIViewController){
-        currentVC.view.removeFromSuperview()
-        currentVC.didMove(toParent: nil)
-
-        let vc = newVC
-        mainVC.addChild(vc)
-        mainVC.view.addSubview(vc.view)
-        newVC.view.frame = mainVC.view.frame
-        newVC.didMove(toParent: mainVC)
-        mainVC.title = newVC.title
-        currentVC = newVC
+    func didTapMenuItem(mainVC: UIViewController, currentVC: inout UIViewController?, newVC: UIViewController){
+        currentVC?.view.removeFromSuperview()
+        currentVC?.didMove(toParent: nil)
+        currentVC = nil
+        
+        if ((newVC as? MainPageViewController) == nil) {
+            let vc = newVC
+            mainVC.addChild(vc)
+            mainVC.view.addSubview(vc.view)
+            vc.view.frame = mainVC.view.frame
+            vc.didMove(toParent: mainVC)
+            currentVC = vc
+        }
+    }
+    
+    func goToMain(currentVC: inout UIViewController?){
+        currentVC?.view.removeFromSuperview()
+        currentVC?.didMove(toParent: nil)
+        currentVC = nil
+        
     }
 }

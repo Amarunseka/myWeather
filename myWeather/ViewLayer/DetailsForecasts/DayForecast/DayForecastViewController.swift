@@ -10,6 +10,7 @@ import UIKit
 class DayForecastViewController: DetailsForecastCommonViewController {
     // MARK: - Initial properties
     private let weatherData: [Forecast]
+    private let regionName: String
     private let partsOfTheDayDictionary = [String: PartOfTheDayModel]()
     private lazy var chooseDayCollectionView = ChooseDayCollectionView()
     private let scrollView = UIScrollView()
@@ -21,7 +22,8 @@ class DayForecastViewController: DetailsForecastCommonViewController {
     private let qualityOfAirView = QualityOfAirView()
 
     // MARK: - Life cycle
-    init(weatherData: [Forecast]) {
+    init(regionName: String, weatherData: [Forecast]) {
+        self.regionName = regionName
         self.weatherData = weatherData
         super.init(nibName: nil, bundle: nil)
     }
@@ -44,6 +46,7 @@ class DayForecastViewController: DetailsForecastCommonViewController {
     // MARK: - Private methods
     private func setupView(){
         view.backgroundColor = .white
+        titleLabel.text = regionName
         scrollView.bounces = false
         dayForecastView.data = weatherData[0].parts.day
         nightForecastView.data = weatherData[0].parts.night

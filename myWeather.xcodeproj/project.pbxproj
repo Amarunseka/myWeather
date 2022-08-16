@@ -75,6 +75,7 @@
 		45D34831289C43B500F13A40 /* HoursForecastCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D34830289C43B500F13A40 /* HoursForecastCollectionView.swift */; };
 		45D34834289C45CC00F13A40 /* HoursForecastCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D34833289C45CC00F13A40 /* HoursForecastCollectionViewCell.swift */; };
 		45D71C5D28AA1D98000A1AB4 /* MainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D71C5C28AA1D98000A1AB4 /* MainPageViewController.swift */; };
+		45D71C6028ABF638000A1AB4 /* TestPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D71C5F28ABF638000A1AB4 /* TestPageVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -147,6 +148,7 @@
 		45D34830289C43B500F13A40 /* HoursForecastCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursForecastCollectionView.swift; sourceTree = "<group>"; };
 		45D34833289C45CC00F13A40 /* HoursForecastCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursForecastCollectionViewCell.swift; sourceTree = "<group>"; };
 		45D71C5C28AA1D98000A1AB4 /* MainPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageViewController.swift; sourceTree = "<group>"; };
+		45D71C5F28ABF638000A1AB4 /* TestPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPageVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -519,6 +521,7 @@
 			isa = PBXGroup;
 			children = (
 				45D71C5C28AA1D98000A1AB4 /* MainPageViewController.swift */,
+				45D71C5F28ABF638000A1AB4 /* TestPageVC.swift */,
 			);
 			path = PageViewController;
 			sourceTree = "<group>";
@@ -659,6 +662,7 @@
 				45CFD43628A0482A008325E4 /* SettingsViewModel.swift in Sources */,
 				45554FBA28A25C660008F06B /* QualityOfAirView.swift in Sources */,
 				45CFD41A289C4FE5008325E4 /* UILabelExtension.swift in Sources */,
+				45D71C6028ABF638000A1AB4 /* TestPageVC.swift in Sources */,
 				453763ED28A57906007DB1A0 /* SlideMenuContainerViewModel.swift in Sources */,
 				45554FC228A27AD40008F06B /* SlideMenuViewModel.swift in Sources */,
 				4537640228A8E292007DB1A0 /* AddNewLocationAlert.swift in Sources */,

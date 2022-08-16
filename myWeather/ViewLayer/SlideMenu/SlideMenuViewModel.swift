@@ -16,7 +16,6 @@ class SlideMenuViewModel {
     
     // MARK: - Initial properties
     weak var delegate: SlideMenuItemsTapProtocol?
-
     
     enum MenuItems: String, CaseIterable {
         case mainScreenVC = "Weather"
@@ -34,10 +33,10 @@ class SlideMenuViewModel {
             }
         }
         
-        var currentVC: UIViewController {
+        var chosenVC: UIViewController {
             switch self {
             case .mainScreenVC:
-                return MainViewController()
+                return MainPageViewController()
             case .editing:
                 return SettingsViewController()
             case .location:

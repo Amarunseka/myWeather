@@ -15,12 +15,14 @@ protocol SlideMenuButtonTapProtocol: AnyObject {
 class MainViewModel {
 
     // MARK: - Initial properties
-    weak var delegate: SlideMenuButtonTapProtocol?
     var outputSettings = UserDefaultsManager.shared.settings
     var coordinates = LocalCoordinates()
-    var cities = UserDefaultsManager.shared.cities
+    var cityInfo: CityCoordinatesModel
     
-    
+    // MARK: - Life cycle
+    init(cityInfo: CityCoordinatesModel) {
+        self.cityInfo = cityInfo
+    }
     
     // MARK: - Public methods
     func fetchWeatherData(completion: @escaping ((Bool)->())){
@@ -36,17 +38,15 @@ class MainViewModel {
         }
     }
     
-    func fetchSpecificWeatherData(completion: @escaping ((UserDefaultsCityModel?, Bool)->())){
-        guard cities[.cities]?.count != 0,
-              let citiesData = cities[.cities]?[0] else {return}
+    func fetchSpecificWeatherData(completion: @escaping ((Bool)->())){
         Task {
             do {
-                let data = try await NetworkRequest.shared.requestSpecificCityWeatherData(latitude: citiesData.latitude, longitude: citiesData.longitude)
+                let data = try await NetworkRequest.shared.requestSpecificCityWeatherData(latitude: cityInfo.latitude, longitude: cityInfo.longitude)
                 WeatherData.weatherData = data
-                completion(citiesData, true)
+                completion(true)
             } catch {
                 print(error)
-                completion(nil, false)
+                completion(false)
             }
         }
     }
@@ -54,14 +54,16 @@ class MainViewModel {
     
     func goToDetailVC(navigation: UIViewController){
         guard let weatherData = WeatherData.weatherData?.forecasts[0].hours else {return}
-        let vc = DailyForecastViewController(weatherData: weatherData)
+        let regionName = cityInfo.location.convertCityLocation()
+        let vc = DailyForecastViewController(regionName: regionName,weatherData: weatherData)
         vc.modalPresentationStyle = .fullScreen
         navigation.present(vc, animated: true)
     }
     
     func goToDayForecast(navigation: UIViewController) {
         guard let weatherData = WeatherData.weatherData?.forecasts else {return}
-        let vc = DayForecastViewController(weatherData: weatherData)
+        let regionName = cityInfo.location.convertCityLocation()
+        let vc = DayForecastViewController(regionName: regionName, weatherData: weatherData)
         vc.modalPresentationStyle = .fullScreen
         navigation.present(vc, animated: true)
     }

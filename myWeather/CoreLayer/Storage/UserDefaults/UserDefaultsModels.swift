@@ -18,7 +18,7 @@ struct SettingsModel: UserDefaultsModelsProtocol, Codable {
     var sentNotifications: Int = 1
 }
 
-struct UserDefaultsCityModel: Codable {
+struct CityCoordinatesModel: Codable {
     var location: String = ""
     var latitude: String = ""
     var longitude: String = ""

@@ -14,14 +14,15 @@ class SlideMenuContainerViewController: UIViewController {
     
     private var navVC = UINavigationController()
     private let slideMenuVC = SlideMenuViewController()
-    private let mainVC = MainViewController()
-    private lazy var currentVC = UIViewController()
+    private let mainVC = MainPageViewController()
+    private var currentVC: UIViewController?
 
 
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         addChildVC()
+        NotificationCenter.default.addObserver(self, selector: #selector(goToMain), name: Notification.Name("addLocation"), object: nil)
     }
     
     
@@ -32,12 +33,17 @@ class SlideMenuContainerViewController: UIViewController {
         self.view.addSubview(slideMenuVC.view)
         slideMenuVC.didMove(toParent: self)
 
-        mainVC.viewModel.delegate = self
+        mainVC.delegateTapMenu = self
         let navVC = UINavigationController(rootViewController: mainVC)
         addChild(navVC)
         self.view.addSubview(navVC.view)
         navVC.didMove(toParent: self)
         self.navVC = navVC
+    }
+    
+    @objc
+    private func goToMain(){
+        viewModel.goToMain(currentVC: &currentVC)
     }
 }
 
@@ -54,6 +60,6 @@ extension SlideMenuContainerViewController: SlideMenuButtonTapProtocol {
 extension SlideMenuContainerViewController: SlideMenuItemsTapProtocol {
     func didSelectMenuItem(menuItem: SlideMenuViewModel.MenuItems) {
         viewModel.toggleSlideMenu(navVC: navVC, vc: mainVC)
-        viewModel.goToNewVC(mainVC: mainVC, currentVC: &currentVC, newVC: menuItem.currentVC)
+        viewModel.didTapMenuItem(mainVC: mainVC, currentVC: &currentVC, newVC: menuItem.chosenVC)
     }
 }

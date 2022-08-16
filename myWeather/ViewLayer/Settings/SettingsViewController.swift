@@ -10,6 +10,8 @@ import UIKit
 class SettingsViewController: UIViewController {
   
     // MARK: - Initial properties
+    private let titleLabel = UILabel.setBlackLabel(text: "Settings", fontSize: 18, fontStyle: .regular)
+
     private let backgroundImage: UIImageView = {
         let imageView = UIImageView()
         let image = UIImage(named: "settingsBackGround")
@@ -33,8 +35,10 @@ class SettingsViewController: UIViewController {
         self.title = "Editing"
         view.addSubview(backgroundImage)
         backgroundImage.frame = view.frame
+        titleLabel.textAlignment = .center
 
-        [settingsView].forEach{
+        [titleLabel,
+         settingsView].forEach{
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -48,6 +52,10 @@ class SettingsViewController: UIViewController {
 extension SettingsViewController {
     private func setConstraints(){
         NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60),
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            
             settingsView.heightAnchor.constraint(equalToConstant: view.frame.size.height / 2.5),
             settingsView.widthAnchor.constraint(equalToConstant: view.frame.size.width - 40),
             settingsView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0),

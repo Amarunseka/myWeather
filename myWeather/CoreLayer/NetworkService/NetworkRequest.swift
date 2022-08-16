@@ -74,7 +74,7 @@ class NetworkRequest {
     func requestCityCoordinates(for city: String) async throws -> CityInfoModel {
         let keyCoder = "e62f1386-c41a-4be8-a8b8-ece5bef3d3be"
 
-        guard let urlStringCoder = "https://geocode-maps.yandex.ru/1.x/?apikey=\(keyCoder)&lang=en_US&format=json&geocode=\(city)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+        guard let urlStringCoder = "https://geocode-maps.yandex.ru/1.x/?apikey=\(keyCoder)&lang=en_RU&format=json&geocode=\(city)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
               let urlCoder = URL(string: urlStringCoder) else {
             throw NetErrors.wrongURL}
 

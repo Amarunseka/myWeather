@@ -64,7 +64,6 @@ class OnBoardingViewController: UIViewController {
     @objc
     private func didUseAppLocationButtonTap(){
         print("didUseAppLocationButtonTap")
-
     }
     
     @objc
@@ -74,9 +73,6 @@ class OnBoardingViewController: UIViewController {
 
 
     // MARK: - Public methods
-
-
-
 }
 
 // MARK: - Set constraints

@@ -10,6 +10,8 @@ import UIKit
 class ChoseLocationViewController: UIViewController {
   
     // MARK: - Initial properties
+    private let titleLabel = UILabel.setBlackLabel(text: "Chose location", fontSize: 18, fontStyle: .regular)
+
     private lazy var addLocationButton: UIButton = {
         let button = UIButton(type: .system)
         button.setBackgroundImage(UIImage(systemName: "plus"), for: .normal)
@@ -31,9 +33,11 @@ class ChoseLocationViewController: UIViewController {
 
     // MARK: - Private methods
     private func setupView(){
-        self.title = "Chose location"
         view.backgroundColor = .cyan
+        titleLabel.textAlignment = .center
+        
         [addLocationButton,
+         titleLabel
         ].forEach{
             $0.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview($0)
@@ -55,10 +59,15 @@ class ChoseLocationViewController: UIViewController {
             do {
                 let cityInfo = try await NetworkRequest.shared.requestCityCoordinates(for: city)
                 let (longitude, latitude, address) = self.convertCityInfo(data: cityInfo)
-                let weatherData = try await NetworkRequest.shared.requestSpecificCityWeatherData(latitude: latitude, longitude: longitude)
-                print(address, weatherData.info.url)
-                let data = UserDefaultsCityModel(location: address, latitude: latitude, longitude: longitude)
+                let data = CityCoordinatesModel(location: address, latitude: latitude, longitude: longitude)
+                navigationController?.popToRootViewController(animated: false)
+                
+                let index = UserDefaultsManager.shared.cities[.cities]?[0]
+                if index?.location.count == 0 {
+                    UserDefaultsManager.shared.cities[.cities]?.removeAll()
+                }
                 UserDefaultsManager.shared.saveCities(data)
+                NotificationCenter.default.post(name: Notification.Name("addLocation"), object: nil)
             } catch {
                 print(error)
             }
@@ -94,6 +103,10 @@ class ChoseLocationViewController: UIViewController {
 extension ChoseLocationViewController{
     private func setConstraints(){
         NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60),
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+
             addLocationButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
             addLocationButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0),
             addLocationButton.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -view.frame.size.width/1.5),

@@ -19,4 +19,12 @@ extension String {
                                               range: NSRange(location: 0, length: self.count),
                                               withTemplate: replacement)
     }
+    
+    func convertCityLocation() -> String {
+        let location = self.split(separator: ",")
+        guard !location.isEmpty else {return ""}
+        let city = location[1]
+        let country = location[0]
+        return "\(city), \(country)"
+    }
 }

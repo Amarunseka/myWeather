@@ -21,7 +21,7 @@ class UserDefaultsManager {
     static let shared: UserDefaultsManager = .init()
     
     var settings: [UserDefaultsNames: SettingsModel] = [.settings : SettingsModel()]
-    var cities: [UserDefaultsNames: [UserDefaultsCityModel]] = [.cities : [UserDefaultsCityModel()]]
+    var cities: [UserDefaultsNames: [CityCoordinatesModel]] = [.cities: [CityCoordinatesModel()]]
     
     
     // MARK: - Init
@@ -36,7 +36,7 @@ class UserDefaultsManager {
         
         guard let city = defaults.data(forKey: UserDefaultsNames.cities.rawValue) else {return}
         do {
-            cities = try decoder.decode([UserDefaultsNames: [UserDefaultsCityModel]].self, from: city)
+            cities = try decoder.decode([UserDefaultsNames: [CityCoordinatesModel]].self, from: city)
         }
         catch {
             print("Coding city error", error)
@@ -77,7 +77,7 @@ class UserDefaultsManager {
 
     
     //MARK: - Cities
-    func saveCities(_ data: UserDefaultsCityModel) {
+    func saveCities(_ data: CityCoordinatesModel) {
         self.cities[.cities]?.append(data)
         let key = UserDefaultsNames.cities.rawValue
         
