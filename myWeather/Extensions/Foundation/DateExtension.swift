@@ -24,8 +24,9 @@ extension Date {
     }()
 
     func toString(type: DateType) -> String {
-        if let wind = UserDefaultsManager.shared.settings.first?.value,
-           wind.timeFormatMode == 0 {
+        let settings = UserDefaultsManager.shared.settings
+        
+        if settings.timeFormatMode == 0 {
             var format = ""
             switch type {
             case .fullDate:

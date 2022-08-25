@@ -11,8 +11,9 @@ class Converter {
     
     static func convertDegreeScale(_ number: Int) -> Int {
         let number = number
-        if let scale = UserDefaultsManager.shared.settings.first?.value,
-           scale.tempMode == 1 {
+        let scale = UserDefaultsManager.shared.settings
+        
+        if scale.tempMode == 1 {
             let far = (Double(number) * 9 / 5) + 32
             return Int(far)
         } else {
@@ -22,8 +23,9 @@ class Converter {
     
     static func convertWindSpeed(_ number: Double) -> String {
         let speed = number * 3.6
-        if let wind = UserDefaultsManager.shared.settings.first?.value,
-           wind.windSpeedMode == 1 {
+        let wind = UserDefaultsManager.shared.settings
+        
+        if wind.windSpeedMode == 1 {
             let mlPerH = String(format: "%.1f", (speed / 1.609))
             return "\(mlPerH) ml/h"
         } else {

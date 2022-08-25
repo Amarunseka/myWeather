@@ -10,9 +10,9 @@ import UIKit
 class SettingsTableView: UITableView {
     
     // MARK: - Initial properties
-    private let settings = UserDefaultsManager.shared.settings.first?.value
+    private let settings = UserDefaultsManager.shared.settings
     private var userInfo = [String : [String:Int]]()
-
+    
     // MARK: - Life cycle
     init() {
         super.init(frame: .zero, style: .plain)
@@ -23,7 +23,7 @@ class SettingsTableView: UITableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-
+    
     // MARK: - Private methods
     private func setupView(){
         self.backgroundColor = nil
@@ -32,15 +32,15 @@ class SettingsTableView: UITableView {
         self.dataSource = self
         self.separatorStyle = .none
     }
-
+    
     private func sendNotification(index: Int, state: Int){
         userInfo = ["setting" : ["index" : index,
                                  "state" : state
                                 ]]
         NotificationCenter.default.post(name: Notification.Name("settingsChange"), object: nil, userInfo: userInfo)
     }
-
-
+    
+    
     // MARK: - Public methods
 }
 
@@ -55,20 +55,17 @@ extension SettingsTableView: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()}
         
         cell.data = SettingsTableViewModel.settings[indexPath.row]
-        
-        if let settings = settings {
-            switch indexPath.row {
-            case 0:
-                cell.segmentedControl.selectedSegmentIndex = settings.tempMode
-            case 1:
-                cell.segmentedControl.selectedSegmentIndex = settings.windSpeedMode
-            case 2:
-                cell.segmentedControl.selectedSegmentIndex = settings.timeFormatMode
-            case 3:
-                cell.segmentedControl.selectedSegmentIndex = settings.sentNotifications
-            default:
-                print("error")
-            }
+        switch indexPath.row {
+        case 0:
+            cell.segmentedControl.selectedSegmentIndex = settings.tempMode
+        case 1:
+            cell.segmentedControl.selectedSegmentIndex = settings.windSpeedMode
+        case 2:
+            cell.segmentedControl.selectedSegmentIndex = settings.timeFormatMode
+        case 3:
+            cell.segmentedControl.selectedSegmentIndex = settings.sentNotifications
+        default:
+            print("error")
         }
         
         cell.sendSegmentedState = { [weak self] state in
@@ -81,7 +78,7 @@ extension SettingsTableView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         50
     }
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.deselectRow(at: indexPath, animated: false)
     }

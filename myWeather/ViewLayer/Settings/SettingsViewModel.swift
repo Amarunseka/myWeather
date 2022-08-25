@@ -9,7 +9,7 @@ import Foundation
 
 class SettingsViewModel {
     // MARK: - Initial properties
-    private var settings = UserDefaultsManager.shared.settings.first?.value
+    private var settings = UserDefaultsManager.shared.settings
 
     // MARK: - Life cycle
 
@@ -18,28 +18,32 @@ class SettingsViewModel {
     // MARK: - Public methods
     public func changeSettingState(_ notification: NSNotification){
         guard let data = notification.userInfo?["setting"] as? [String: Int],
-              let state = data["state"],
-              var setting = settings else {return}
+              let state = data["state"] else {return}
 
         switch data["index"] {
         case 0:
-            setting.tempMode = state
+            settings.tempMode = state
         case 1:
-            setting.windSpeedMode = state
+            settings.windSpeedMode = state
         case 2:
-            setting.timeFormatMode = state
+            settings.timeFormatMode = state
         case 3:
-            setting.sentNotifications = state
+            settings.sentNotifications = state
         default:
             print("Element not found")
         }
-        self.settings = setting
     }
     
     public func saveSettings(){
-        guard let data = settings else {return}
-        let userDefaults = UserDefaultsManager.shared
-        userDefaults.saveSettings(data)
-        NotificationCenter.default.post(name: Notification.Name("addLocation"), object: nil)
+        Task {
+            do {
+                try await UserDefaultsManager.shared.save(key: .settings, model: settings)
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else {return}
+                    UserDefaultsManager.shared.settings = self.settings
+                    NotificationCenter.default.post(name: Notification.Name("addLocation"), object: nil)
+                }
+            }
+        }
     }
 }

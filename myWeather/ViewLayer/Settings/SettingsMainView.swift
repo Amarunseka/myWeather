@@ -20,7 +20,7 @@ class SettingsMainView: UIView {
     private let settingsLabel = UILabel.setBlackLabel(text: "Settings", fontSize: 18, fontStyle: .medium)
     private let tableView = SettingsTableView()
     private lazy var saveButton = UIButton.setButton(title: "SAVE SETTINGS", color: .specialOrange, fontSize: 18)
-    private var settings = UserDefaultsManager.shared.settings.first?.value
+    private var settings = UserDefaultsManager.shared.settings
 
 
     // MARK: - Life cycle

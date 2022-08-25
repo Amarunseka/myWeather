@@ -42,8 +42,9 @@ class HoursForecastCollectionView: UICollectionView {
     // MARK: - Public methods
     func selectToCurrentItem(){
         let currentHour: Int?
-        if let wind = UserDefaultsManager.shared.settings.first?.value,
-           wind.timeFormatMode == 0 {
+        let settings = UserDefaultsManager.shared.settings
+        
+        if settings.timeFormatMode == 0 {
             currentHour = Int(Date().toString(type: .hour).dropLast(3))
         } else {
             currentHour = Int(Date().toString(type: .hour))
