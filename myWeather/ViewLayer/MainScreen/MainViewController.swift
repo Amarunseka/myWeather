@@ -56,7 +56,7 @@ class MainViewController: UIViewController {
         
         // УДАЛИТЬ!!!!
         let asd = UserDefaultsManager.shared.cities
-        asd[.cities]?.forEach{
+        asd.forEach{
             print($0.location)
         }
         setupView()

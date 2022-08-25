@@ -7,11 +7,7 @@
 
 import Foundation
 
-protocol UserDefaultsModelsProtocol {
-    
-}
-
-struct SettingsModel: UserDefaultsModelsProtocol, Codable {
+struct SettingsModel: Codable {
     var tempMode: Int = 0
     var windSpeedMode: Int = 0
     var timeFormatMode: Int = 1

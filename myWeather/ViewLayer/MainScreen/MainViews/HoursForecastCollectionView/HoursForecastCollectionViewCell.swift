@@ -13,7 +13,7 @@ class HoursForecastCollectionViewCell: UICollectionViewCell {
     var data: Hour? {
         didSet {
             guard let data = data else {return}
-            let mode = UserDefaultsManager.shared.settings.first?.value.timeFormatMode
+            let mode = UserDefaultsManager.shared.settings.timeFormatMode
             var time = ""
             mode == 0
             ? (time = (data.hourTs).toDate().toString(type: .hour))

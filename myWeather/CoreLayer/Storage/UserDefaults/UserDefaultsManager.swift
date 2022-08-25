@@ -13,76 +13,43 @@ enum UserDefaultsNames: String, Codable {
 }
 
 class UserDefaultsManager {
-
+    static let shared: UserDefaultsManager = .init()
+    
     private lazy var defaults = UserDefaults.standard
     private lazy var decoder: JSONDecoder = .init()
     private lazy var encoder: JSONEncoder = .init()
-    
-    static let shared: UserDefaultsManager = .init()
-    
-    var settings: [UserDefaultsNames: SettingsModel] = [.settings : SettingsModel()]
-    var cities: [UserDefaultsNames: [CityCoordinatesModel]] = [.cities: []]
-    
+        
+    public var settings = SettingsModel()
+    public var cities: [CityCoordinatesModel] = []
     
     // MARK: - Init
     private init() {
-        guard let data = defaults.data(forKey: UserDefaultsNames.settings.rawValue) else {return}
+        self.settings = self.fetch(key: .settings, model: SettingsModel.self) as? SettingsModel ?? SettingsModel()
+        self.cities = self.fetch(key: .cities, model: [CityCoordinatesModel].self) as? [CityCoordinatesModel] ?? []
+    }
+    
+    // MARK: - Methods
+    public func save<T: Encodable>(key: UserDefaultsNames, model: T) async throws {
         do {
-            settings = try decoder.decode([UserDefaultsNames: SettingsModel].self, from: data)
+            let data = try self.encoder.encode(model.self)
+            self.defaults.setValue(data, forKey: key.rawValue)
         }
         catch {
-            print("Coding settings error", error)
-        }
-        
-        guard let city = defaults.data(forKey: UserDefaultsNames.cities.rawValue) else {return}
-        do {
-            cities = try decoder.decode([UserDefaultsNames: [CityCoordinatesModel]].self, from: city)
-        }
-        catch {
-            print("Coding city error", error)
+            print("Coding error", error)
         }
     }
 
-    
-    // MARK: - Settings
-    func saveSettings(_ data: SettingsModel) {
-        self.settings[.settings] = data
-        let key = UserDefaultsNames.settings.rawValue
+    public func fetch<T: Decodable>(key: UserDefaultsNames, model: T.Type) -> Decodable? {
         
-            do {
-                let data = try self.encoder.encode(self.settings)
-                self.defaults.setValue(data, forKey: key)
-            }
-            catch {
-                print("Coding error", error)
-            }
-    }
-    
-
-    func fetchSettings() -> Codable? {
-         guard let data = defaults.data(forKey: UserDefaultsNames.settings.rawValue) else {return nil}
+        guard let data = defaults.data(forKey: key.rawValue) else {return nil}
+        
         do {
-            let data = try decoder.decode([UserDefaultsNames: SettingsModel].self, from: data)
-            return data[UserDefaultsNames.settings]
+            let data = try decoder.decode(model.self, from: data)
+            return data
         }
         catch {
             print("Coding error", error)
             return nil
         }
-    }
-
-    
-    //MARK: - Cities
-    func saveCities(_ data: CityCoordinatesModel) {
-        self.cities[.cities]?.append(data)
-        let key = UserDefaultsNames.cities.rawValue
-        
-            do {
-                let data = try self.encoder.encode(self.cities)
-                self.defaults.setValue(data, forKey: key)
-            }
-            catch {
-                print("Coding error", error)
-            }
     }
 }

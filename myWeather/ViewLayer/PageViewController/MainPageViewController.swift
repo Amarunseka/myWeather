@@ -36,7 +36,7 @@ class MainPageViewController: UIPageViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if viewModel.cities?.count == 0 {
+        if viewModel.cities.count == 0 {
             NotificationCenter.default.post(name: Notification.Name("noLocation"), object: nil)
         }
     }
@@ -80,12 +80,12 @@ class MainPageViewController: UIPageViewController {
                 subView.frame.origin.y = 80
                 subView.pageIndicatorTintColor = .lightGray
                 
-                (cities?.count ?? 0) > 1
+                cities.count > 1
                 ? (subView.currentPageIndicatorTintColor = .black)
                 : (subView.currentPageIndicatorTintColor = .clear)
                 
-                if cities?.count != 0 {
-                    titleLabel.text = cities?[subView.currentPage].location.convertCityLocation()
+                if cities.count != 0 {
+                    titleLabel.text = cities[subView.currentPage].location.convertCityLocation()
                 }
             }
         }
@@ -105,7 +105,7 @@ class MainPageViewController: UIPageViewController {
     
     @objc
     private func addNewLocation(){
-        let cities = UserDefaultsManager.shared.cities[.cities]
+        let cities = UserDefaultsManager.shared.cities
         self.viewModel.cities = cities
 
         let viewControllersArray = viewModel.createViewController()
@@ -113,8 +113,8 @@ class MainPageViewController: UIPageViewController {
         self.viewControllersArray = viewControllersArray
         setViewControllers([self.viewControllersArray[0]], direction: .forward, animated: true, completion: nil)
         
-        if cities?.count == 1 {
-            titleLabel.text = cities?[0].location.convertCityLocation()
+        if cities.count == 1 {
+            titleLabel.text = cities[0].location.convertCityLocation()
         }
     }
 
@@ -140,8 +140,10 @@ extension MainPageViewController: UIPageViewControllerDelegate, UIPageViewContro
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        guard let vc = viewController as? MainViewController,
-              let cities = viewModel.cities else {return nil}
+        let cities = viewModel.cities
+        
+        guard let vc = viewController as? MainViewController else {return nil}
+        
         if let index = viewControllersArray.firstIndex(of: vc),
            index < cities.count - 1 {
             return viewControllersArray[index + 1]

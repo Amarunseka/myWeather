@@ -11,7 +11,7 @@ class DependencyContainer{
     
     static let shared = DependencyContainer.init()
     
-    var cities = UserDefaultsManager.shared.cities[.cities]
+    var cities = UserDefaultsManager.shared.cities
 
     func makeSlideMenuContainerVC()->SlideMenuContainerViewController {
         let vm = SlideMenuContainerViewModel()

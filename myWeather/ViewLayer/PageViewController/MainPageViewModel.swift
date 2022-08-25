@@ -13,7 +13,7 @@ protocol SlideMenuButtonTapProtocol: AnyObject {
 
 class MainPageViewModel {
     // MARK: - Initial properties
-    var cities: [CityCoordinatesModel]? {
+    var cities: [CityCoordinatesModel] {
         didSet {
             DependencyContainer.shared.cities = cities
         }
@@ -21,7 +21,7 @@ class MainPageViewModel {
     weak var delegateTapMenu: SlideMenuButtonTapProtocol?
 
     // MARK: - Life cycle
-    init(cities: [CityCoordinatesModel]?) {
+    init(cities: [CityCoordinatesModel]) {
         self.cities = cities
     }
     
@@ -30,7 +30,7 @@ class MainPageViewModel {
     // MARK: - Public methods
     public func createViewController() -> [MainViewController] {
         var controllers = [MainViewController]()
-        self.cities?.forEach{
+        self.cities.forEach{
             controllers.append(DependencyContainer.shared.makeMainVC(cityInfo: $0))
         }
         return controllers
