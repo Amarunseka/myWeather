@@ -10,56 +10,40 @@ import UIKit
 class MainPageViewController: UIPageViewController {
     
     // MARK: - Initial properties
-    weak var delegateTapMenu: SlideMenuButtonTapProtocol?
-    private var cities = UserDefaultsManager.shared.cities[.cities]
+    let viewModel: MainPageViewModel
     private let titleLabel = UILabel.setBlackLabel(text: "", fontSize: 18, fontStyle: .regular)
+    private lazy var viewControllersArray: [MainViewController] = viewModel.createViewController()
 
-    private lazy var viewControllersArray: [MainViewController] = {
-        var controllers = [MainViewController]()
-        cities?.forEach{
-            controllers.append(createViewControllers(cityInfo: $0))
-        }
-        return controllers
-    }()
-
-
+    
     // MARK: - Life cycle
-    override init(transitionStyle style: UIPageViewController.TransitionStyle, navigationOrientation: UIPageViewController.NavigationOrientation, options: [UIPageViewController.OptionsKey : Any]? = nil) {
+    init(viewModel: MainPageViewModel) {
+        self.viewModel = viewModel
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
-
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate = self
         dataSource = self
         setupView()
-        setViewControllers([viewControllersArray[0]], direction: .forward, animated: true, completion: nil)
         setupNavigationBar()
         NotificationCenter.default.addObserver(self, selector: #selector(addNewLocation), name: Notification.Name("addLocation"), object: nil)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        if viewModel.cities?.count == 0 {
+            NotificationCenter.default.post(name: Notification.Name("noLocation"), object: nil)
+        }
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-
-        for subView in view.subviews {
-            if subView is UIPageControl {
-                subView.frame.origin.y = 80
-                if let subView = subView as? UIPageControl {
-                    subView.pageIndicatorTintColor = .lightGray
-                    subView.currentPageIndicatorTintColor = .black
-                    titleLabel.text = cities?[subView.currentPage].location.convertCityLocation()
-                }
-            }
-        }
+        setupPageControl()
         setConstraints()
     }
 
@@ -67,78 +51,81 @@ class MainPageViewController: UIPageViewController {
     // MARK: - Private methods
     private func setupView(){
         view.backgroundColor = .clear
-
+        
         [titleLabel].forEach{
             $0.textAlignment = .center
             $0.adjustsFontSizeToFitWidth = true
             $0.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview($0)
         }
+        
+        if !viewControllersArray.isEmpty {
+            setViewControllers([viewControllersArray[0]], direction: .forward, animated: true, completion: nil)
+        }
     }
-    
-    
-    private func createViewControllers(cityInfo: CityCoordinatesModel) -> MainViewController{
-        let vm = MainViewModel(cityInfo: cityInfo)
-        let vc = MainViewController(viewModel: vm)
-        return vc
-    }
-    
+
     private func setupNavigationBar(){
-        let slideMenuButton: UIButton = {
-            let button = UIButton(type: .system)
-            let image = UIImage(named: "slideMenuIcon")
-            button.frame = CGRect(x: 0, y: 0, width: 30, height: 16)
-            button.setBackgroundImage(image, for: .normal)
-            button.addTarget(self, action: #selector(didSlideMenuTap), for: .touchUpInside)
-            return button
-        }()
+        let slideMenuButton = UIButton.setNavItemButton(image: "slideMenuIcon", width: 30)
+        slideMenuButton.addTarget(self, action: #selector(didSlideMenuTap), for: .touchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: slideMenuButton)
-        
-        
-        let geolocationButton: UIButton = {
-            let button = UIButton(type: .system)
-            let image = UIImage(named: "geolocationIcon")
-            button.frame = CGRect(x: 0, y: 0, width: 20, height: 16)
-            button.setBackgroundImage(image, for: .normal)
-            button.addTarget(self, action: #selector(didGeolocationTap), for: .touchUpInside)
-            return button
-        }()
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: geolocationButton)
+
+        self.navigationItem.rightBarButtonItem = createRightBarButtonItem()
+    }
+    
+    private func setupPageControl(){
+        let cities = viewModel.cities
+        for subView in view.subviews {
+            if subView is UIPageControl,
+               let subView = subView as? UIPageControl {
+                subView.frame.origin.y = 80
+                subView.pageIndicatorTintColor = .lightGray
+                
+                (cities?.count ?? 0) > 1
+                ? (subView.currentPageIndicatorTintColor = .black)
+                : (subView.currentPageIndicatorTintColor = .clear)
+                
+                if cities?.count != 0 {
+                    titleLabel.text = cities?[subView.currentPage].location.convertCityLocation()
+                }
+            }
+        }
     }
     
     @objc
     private func didSlideMenuTap(){
-        delegateTapMenu?.didTapSlideMenu()
+        viewModel.delegateTapMenu?.didTapSlideMenu()
     }
-    
     
     @objc
     private func didGeolocationTap(){
         print("didGeolocationTap")
-        // очистка USERDefaults
-        UserDefaults.standard.removeObject(forKey: UserDefaultsNames.cities.rawValue)
+//         очистка USERDefaults
+//        UserDefaults.standard.removeObject(forKey: UserDefaultsNames.cities.rawValue)
     }
     
     @objc
     private func addNewLocation(){
         let cities = UserDefaultsManager.shared.cities[.cities]
+        self.viewModel.cities = cities
+
+        let viewControllersArray = viewModel.createViewController()
         
-        let viewControllersArray: [MainViewController] = {
-            var controllers = [MainViewController]()
-            cities?.forEach{
-                controllers.append(createViewControllers(cityInfo: $0))
-            }
-            return controllers
-        }()
-        
-        self.cities = cities
         self.viewControllersArray = viewControllersArray
-        setViewControllers([viewControllersArray[0]], direction: .forward, animated: true, completion: nil)
+        setViewControllers([self.viewControllersArray[0]], direction: .forward, animated: true, completion: nil)
+        
+        if cities?.count == 1 {
+            titleLabel.text = cities?[0].location.convertCityLocation()
+        }
     }
 
 
     // MARK: - Public methods
-
+    public func createRightBarButtonItem() -> UIBarButtonItem {
+        let geolocationButton = UIButton.setNavItemButton(image: "geolocationIcon", width: 20)
+        geolocationButton.addTarget(self, action: #selector(didGeolocationTap), for: .touchUpInside)
+        let item = UIBarButtonItem(customView: geolocationButton)
+        return item
+    }
 }
 
 // MARK: - UIPageViewControllerDelegate, UIPageViewControllerDataSource
@@ -154,7 +141,7 @@ extension MainPageViewController: UIPageViewControllerDelegate, UIPageViewContro
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         guard let vc = viewController as? MainViewController,
-              let cities = cities else {return nil}
+              let cities = viewModel.cities else {return nil}
         if let index = viewControllersArray.firstIndex(of: vc),
            index < cities.count - 1 {
             return viewControllersArray[index + 1]

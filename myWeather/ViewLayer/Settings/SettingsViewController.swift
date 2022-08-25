@@ -10,7 +10,9 @@ import UIKit
 class SettingsViewController: UIViewController {
   
     // MARK: - Initial properties
+    private let viewModel: SettingsViewModel
     private let titleLabel = UILabel.setBlackLabel(text: "Settings", fontSize: 18, fontStyle: .regular)
+    private lazy var settingsView = SettingsMainView(viewModel: viewModel)
 
     private let backgroundImage: UIImageView = {
         let imageView = UIImageView()
@@ -18,17 +20,22 @@ class SettingsViewController: UIViewController {
         imageView.image = image
         return imageView
     }()
-    
-    private let settingsView = SettingsMainView()
-
 
     // MARK: - Life cycle
+    init(viewModel: SettingsViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         setConstraints()
     }
-
 
     // MARK: - Private methods
     private func setupView(){

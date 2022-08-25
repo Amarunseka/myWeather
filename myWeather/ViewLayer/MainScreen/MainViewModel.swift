@@ -7,11 +7,6 @@
 
 import UIKit
 
-protocol SlideMenuButtonTapProtocol: AnyObject {
-    func didTapSlideMenu()
-}
-
-
 class MainViewModel {
 
     // MARK: - Initial properties
@@ -53,17 +48,15 @@ class MainViewModel {
     
     
     func goToDetailVC(navigation: UIViewController){
-        guard let weatherData = WeatherData.weatherData?.forecasts[0].hours else {return}
-        let regionName = cityInfo.location.convertCityLocation()
-        let vc = DailyForecastViewController(regionName: regionName,weatherData: weatherData)
+        let vc = DependencyContainer.shared.makeDetailVC(cityInfo: cityInfo)
+        guard let vc = vc else {return}
         vc.modalPresentationStyle = .fullScreen
         navigation.present(vc, animated: true)
     }
     
     func goToDayForecast(navigation: UIViewController) {
-        guard let weatherData = WeatherData.weatherData?.forecasts else {return}
-        let regionName = cityInfo.location.convertCityLocation()
-        let vc = DayForecastViewController(regionName: regionName, weatherData: weatherData)
+        let vc = DependencyContainer.shared.makeDayForecastVC(cityInfo: cityInfo)
+        guard let vc = vc else {return}
         vc.modalPresentationStyle = .fullScreen
         navigation.present(vc, animated: true)
     }

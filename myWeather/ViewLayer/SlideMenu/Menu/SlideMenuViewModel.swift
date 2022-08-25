@@ -11,7 +11,6 @@ protocol SlideMenuItemsTapProtocol: AnyObject {
     func didSelectMenuItem(menuItem: SlideMenuViewModel.MenuItems)
 }
 
-
 class SlideMenuViewModel {
     
     // MARK: - Initial properties
@@ -19,7 +18,7 @@ class SlideMenuViewModel {
     
     enum MenuItems: String, CaseIterable {
         case mainScreenVC = "Weather"
-        case editing = "Editing"
+        case editing = "Settings"
         case location = "Moscow"
         
         var iconImage: String {
@@ -36,12 +35,11 @@ class SlideMenuViewModel {
         var chosenVC: UIViewController {
             switch self {
             case .mainScreenVC:
-                return MainPageViewController()
+                return DependencyContainer.shared.makeMainPageVC()
             case .editing:
-                return SettingsViewController()
+                return DependencyContainer.shared.makeSettingsVC()
             case .location:
-                return ChoseLocationViewController()
-
+                return DependencyContainer.shared.makeChoseLocationVC()
             }
         }
     }

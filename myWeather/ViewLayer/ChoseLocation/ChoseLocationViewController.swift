@@ -10,19 +10,28 @@ import UIKit
 class ChoseLocationViewController: UIViewController {
   
     // MARK: - Initial properties
+    private let viewModel: ChoseLocationViewModel
     private let titleLabel = UILabel.setBlackLabel(text: "Chose location", fontSize: 18, fontStyle: .regular)
+    private lazy var addNewLocationAlert = AddNewLocationAlert(vc: self)
 
     private lazy var addLocationButton: UIButton = {
         let button = UIButton(type: .system)
         button.setBackgroundImage(UIImage(systemName: "plus"), for: .normal)
-        button.tintColor = .black
+        button.tintColor = .specialDarkBlue
         button.addTarget(self, action: #selector(didTapAddLocationButton), for: .touchUpInside)
         return button
     }()
-    
-    private lazy var addNewLocationAlert = AddNewLocationAlert(vc: self)
 
     // MARK: - Life cycle
+    init(viewModel: ChoseLocationViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupAddNewLocationAlert()
@@ -30,10 +39,9 @@ class ChoseLocationViewController: UIViewController {
         setConstraints()
     }
 
-
     // MARK: - Private methods
     private func setupView(){
-        view.backgroundColor = .cyan
+        view.backgroundColor = .white
         titleLabel.textAlignment = .center
         
         [addLocationButton,
@@ -49,28 +57,7 @@ class ChoseLocationViewController: UIViewController {
 
         addNewLocationAlert.outputText = { [weak self ] city in
             guard let self = self else {return}
-            self.getCityInfo(city: city)
-        }
-    }
-    
-    func getCityInfo(city: String) {
-        
-        Task {
-            do {
-                let cityInfo = try await NetworkRequest.shared.requestCityCoordinates(for: city)
-                let (longitude, latitude, address) = self.convertCityInfo(data: cityInfo)
-                let data = CityCoordinatesModel(location: address, latitude: latitude, longitude: longitude)
-                navigationController?.popToRootViewController(animated: false)
-                
-                let index = UserDefaultsManager.shared.cities[.cities]?[0]
-                if index?.location.count == 0 {
-                    UserDefaultsManager.shared.cities[.cities]?.removeAll()
-                }
-                UserDefaultsManager.shared.saveCities(data)
-                NotificationCenter.default.post(name: Notification.Name("addLocation"), object: nil)
-            } catch {
-                print(error)
-            }
+            self.viewModel.getCityInfo(city: city)
         }
     }
     
@@ -78,25 +65,8 @@ class ChoseLocationViewController: UIViewController {
     private func didTapAddLocationButton(){
         addNewLocationAlert.presentAlert()
     }
-    
-    private func convertCityInfo(data: CityInfoModel?) -> (String, String, String){
-        if let coder = data?.response.geoObjectCollection.featureMember,
-           !coder.isEmpty {
-            let coordinates = coder[0].geoObject.point
-            let coordinatesArray = coordinates.pos.split(separator: " ")
-            
-            let longitude = coordinatesArray[0]
-            let latitude = coordinatesArray[1]
-            let address = coder[0].geoObject.metaDataProperty.geocoderMetaData.address.formatted
-            
-            return("\(longitude)", "\(latitude)", "\(address)")
-        }
-        return ("","","")
-    }
-
 
     // MARK: - Public methods
-
 
 }
 // MARK: - Set constraints

@@ -20,4 +20,15 @@ extension UIButton {
         button.layer.cornerRadius = 10
         return button
     }
+    
+    static func setNavItemButton(image: String, width: CGFloat) -> UIButton {
+        let button = UIButton(type: .system)
+        let image = UIImage(named: image)
+        button.frame = CGRect(x: 0, y: 0, width: width, height: 16)
+        button.setBackgroundImage(image, for: .normal)
+        return button
+    }
 }
+
+
+

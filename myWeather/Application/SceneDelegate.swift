@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
 
-        window.rootViewController = SlideMenuContainerViewController()
+        window.rootViewController = DependencyContainer.shared.makeSlideMenuContainerVC()
         window.makeKeyAndVisible()
         self.window = window
     }

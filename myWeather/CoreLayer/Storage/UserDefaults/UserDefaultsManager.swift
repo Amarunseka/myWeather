@@ -21,7 +21,7 @@ class UserDefaultsManager {
     static let shared: UserDefaultsManager = .init()
     
     var settings: [UserDefaultsNames: SettingsModel] = [.settings : SettingsModel()]
-    var cities: [UserDefaultsNames: [CityCoordinatesModel]] = [.cities: [CityCoordinatesModel()]]
+    var cities: [UserDefaultsNames: [CityCoordinatesModel]] = [.cities: []]
     
     
     // MARK: - Init
@@ -42,16 +42,13 @@ class UserDefaultsManager {
             print("Coding city error", error)
         }
     }
-    
-    
+
     
     // MARK: - Settings
     func saveSettings(_ data: SettingsModel) {
         self.settings[.settings] = data
         let key = UserDefaultsNames.settings.rawValue
         
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else {return}
             do {
                 let data = try self.encoder.encode(self.settings)
                 self.defaults.setValue(data, forKey: key)
@@ -59,7 +56,6 @@ class UserDefaultsManager {
             catch {
                 print("Coding error", error)
             }
-        }
     }
     
 
@@ -81,8 +77,6 @@ class UserDefaultsManager {
         self.cities[.cities]?.append(data)
         let key = UserDefaultsNames.cities.rawValue
         
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else {return}
             do {
                 let data = try self.encoder.encode(self.cities)
                 self.defaults.setValue(data, forKey: key)
@@ -90,6 +84,5 @@ class UserDefaultsManager {
             catch {
                 print("Coding error", error)
             }
-        }
     }
 }

@@ -41,20 +41,7 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-//        viewModel.fetchWeatherData { result in
-//            if result {
-//                guard let weatherData = WeatherData.weatherData else {return}
-//                DispatchQueue.main.async {
-//                    self.setParametersCurrenWeatherView(data: weatherData)
-//                    self.setParametersHoursForecastCollectionView(data: weatherData.forecasts[0].hours)
-//                    self.setParametersSevenDaysForecastTableView(data: weatherData.forecasts)
-//                }
-//            }
-//        }
- 
-        
+
         viewModel.fetchSpecificWeatherData { [weak self] result in
             guard let self = self else {return}
             if result {
@@ -72,7 +59,6 @@ class MainViewController: UIViewController {
         asd[.cities]?.forEach{
             print($0.location)
         }
-        
         setupView()
         setConstraints()
     }
@@ -81,7 +67,6 @@ class MainViewController: UIViewController {
     // MARK: - Private methods
     private func setupView() {
         self.view.backgroundColor = .white
-//        setupNavigationBar()
         
         [currentWeatherView,
          detailFor24HoursButton,
@@ -98,41 +83,7 @@ class MainViewController: UIViewController {
             self.goToDayForecast(indexPath: indexPath)
         }
     }
-    
-//    private func setupNavigationBar(){
-//
-//        let slideMenuButton: UIButton = {
-//            let button = UIButton(type: .system)
-//            let image = UIImage(named: "slideMenuIcon")
-//            button.frame = CGRect(x: 0, y: 0, width: 30, height: 16)
-//            button.setBackgroundImage(image, for: .normal)
-//            button.addTarget(self, action: #selector(didSlideMenuTap), for: .touchUpInside)
-//            return button
-//        }()
-//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: slideMenuButton)
-//        
-//        
-//        let geolocationButton: UIButton = {
-//            let button = UIButton(type: .system)
-//            let image = UIImage(named: "geolocationIcon")
-//            button.frame = CGRect(x: 0, y: 0, width: 20, height: 16)
-//            button.setBackgroundImage(image, for: .normal)
-//            button.addTarget(self, action: #selector(didGeolocationTap), for: .touchUpInside)
-//            return button
-//        }()
-//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: geolocationButton)
-//    }
-//
-//    @objc
-//    private func didSlideMenuTap(){
-//        viewModel.delegate?.didTapSlideMenu()
-//    }
-//    
-//    @objc
-//    private func didGeolocationTap(){
-//        print("didGeolocationTap")
-//    }
-    
+
     @objc
     private func didDetailButtonTapp(){
         viewModel.goToDetailVC(navigation: self)

@@ -9,14 +9,12 @@ import UIKit
 
 class DailyForecastViewController: DetailsForecastCommonViewController {
     // MARK: - Initial properties
-    private let weatherData: [Hour]
-    private let regionName: String
-    private lazy var tableView = DailyForecastTableView(weatherData: weatherData)
+    private let viewModel: DailyForecastViewModel
+    private lazy var tableView = DailyForecastTableView(weatherData: viewModel.weatherData)
 
     // MARK: - Life cycle
-    init(regionName: String, weatherData: [Hour]) {
-        self.regionName = regionName
-        self.weatherData = weatherData
+    init(viewModel: DailyForecastViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -37,7 +35,7 @@ class DailyForecastViewController: DetailsForecastCommonViewController {
     // MARK: - Private methods
     private func setupView(){
         view.backgroundColor = .white
-        titleLabel.text = regionName
+        titleLabel.text = viewModel.regionName
         [tableView
         ].forEach{
             $0.translatesAutoresizingMaskIntoConstraints = false

@@ -47,14 +47,14 @@ class SettingsTableView: UITableView {
 // MARK: - Set constraints
 extension SettingsTableView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        SettingsViewModel.settings.count
+        SettingsTableViewModel.settings.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = self.dequeueReusableCell(withIdentifier: String(describing: SettingsTableViewCell.self), for: indexPath) as? SettingsTableViewCell else {
             return UITableViewCell()}
         
-        cell.data = SettingsViewModel.settings[indexPath.row]
+        cell.data = SettingsTableViewModel.settings[indexPath.row]
         
         if let settings = settings {
             switch indexPath.row {
