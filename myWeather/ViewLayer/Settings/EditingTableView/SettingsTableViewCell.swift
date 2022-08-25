@@ -9,7 +9,7 @@ import UIKit
 
 class SettingsTableViewCell: UITableViewCell {
     // MARK: - Initial properties
-    var data: SettingsViewModel? {
+    var data: SettingsTableViewModel? {
         didSet {
             guard let setting = data else {return}
             nameLabel.text = setting.settingName

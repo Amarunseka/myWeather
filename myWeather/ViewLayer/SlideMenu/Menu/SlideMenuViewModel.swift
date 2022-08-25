@@ -11,16 +11,14 @@ protocol SlideMenuItemsTapProtocol: AnyObject {
     func didSelectMenuItem(menuItem: SlideMenuViewModel.MenuItems)
 }
 
-
 class SlideMenuViewModel {
     
     // MARK: - Initial properties
     weak var delegate: SlideMenuItemsTapProtocol?
-
     
     enum MenuItems: String, CaseIterable {
         case mainScreenVC = "Weather"
-        case editing = "Editing"
+        case editing = "Settings"
         case location = "Moscow"
         
         var iconImage: String {
@@ -34,15 +32,14 @@ class SlideMenuViewModel {
             }
         }
         
-        var currentVC: UIViewController {
+        var chosenVC: UIViewController {
             switch self {
             case .mainScreenVC:
-                return MainViewController()
+                return DependencyContainer.shared.makeMainPageVC()
             case .editing:
-                return SettingsViewController()
+                return DependencyContainer.shared.makeSettingsVC()
             case .location:
-                return ChoseLocationViewController()
-
+                return DependencyContainer.shared.makeChoseLocationVC()
             }
         }
     }

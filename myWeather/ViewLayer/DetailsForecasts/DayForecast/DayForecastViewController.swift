@@ -9,7 +9,7 @@ import UIKit
 
 class DayForecastViewController: DetailsForecastCommonViewController {
     // MARK: - Initial properties
-    private let weatherData: [Forecast]
+    private let viewModel: DayForecastViewModel
     private let partsOfTheDayDictionary = [String: PartOfTheDayModel]()
     private lazy var chooseDayCollectionView = ChooseDayCollectionView()
     private let scrollView = UIScrollView()
@@ -21,8 +21,8 @@ class DayForecastViewController: DetailsForecastCommonViewController {
     private let qualityOfAirView = QualityOfAirView()
 
     // MARK: - Life cycle
-    init(weatherData: [Forecast]) {
-        self.weatherData = weatherData
+    init(viewModel: DayForecastViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -44,9 +44,10 @@ class DayForecastViewController: DetailsForecastCommonViewController {
     // MARK: - Private methods
     private func setupView(){
         view.backgroundColor = .white
+        titleLabel.text = viewModel.regionName
         scrollView.bounces = false
-        dayForecastView.data = weatherData[0].parts.day
-        nightForecastView.data = weatherData[0].parts.night
+        dayForecastView.data = viewModel.weatherData[0].parts.day
+        nightForecastView.data = viewModel.weatherData[0].parts.night
 
         
         [chooseDayCollectionView,
@@ -74,7 +75,7 @@ class DayForecastViewController: DetailsForecastCommonViewController {
     
     private func setupCollectionView(){
         var names = [String]()
-        weatherData.forEach{
+        viewModel.weatherData.forEach{
             names.append($0.dateTs.toDate().toString(type: .shortAndWDDate))
         }
         chooseDayCollectionView.itemNames = names
@@ -87,8 +88,8 @@ class DayForecastViewController: DetailsForecastCommonViewController {
     }
     
     private func didTapCollectionItem(index: Int) {
-        dayForecastView.data = weatherData[index].parts.day
-        nightForecastView.data = weatherData[index].parts.night
+        dayForecastView.data = viewModel.weatherData[index].parts.day
+        nightForecastView.data = viewModel.weatherData[index].parts.night
     }
 
     // MARK: - Public methods

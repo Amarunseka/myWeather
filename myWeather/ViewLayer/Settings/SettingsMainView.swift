@@ -7,15 +7,16 @@
 
 import UIKit
 
-enum SettingsNames: String {
-    case name = "setting"
-    case index = "index"
-    case state = "state"
-}
+//enum SettingsNames: String {
+//    case name = "setting"
+//    case index = "index"
+//    case state = "state"
+//}
 
 class SettingsMainView: UIView {
    
     // MARK: - Initial properties
+    private let viewModel: SettingsViewModel
     private let settingsLabel = UILabel.setBlackLabel(text: "Settings", fontSize: 18, fontStyle: .medium)
     private let tableView = SettingsTableView()
     private lazy var saveButton = UIButton.setButton(title: "SAVE SETTINGS", color: .specialOrange, fontSize: 18)
@@ -23,13 +24,14 @@ class SettingsMainView: UIView {
 
 
     // MARK: - Life cycle
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(viewModel: SettingsViewModel) {
+        self.viewModel = viewModel
+        super.init(frame: .zero)
         setupView()
         setConstraints()
         getNotification()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -59,30 +61,12 @@ class SettingsMainView: UIView {
     
     @objc
     private func changeSettingState(_ notification: NSNotification){
-        guard let data = notification.userInfo?["setting"] as? [String: Int],
-              let state = data["state"],
-              var setting = settings else {return}
-
-        switch data["index"] {
-        case 0:
-            setting.tempMode = state
-        case 1:
-            setting.windSpeedMode = state
-        case 2:
-            setting.timeFormatMode = state
-        case 3:
-            setting.sentNotifications = state
-        default:
-            print("Element not found")
-        }
-        self.settings = setting
+        viewModel.changeSettingState(notification)
     }
     
     @objc
     private func didSaveButtonTap(){
-        guard let data = settings else {return}
-        let userDefaults = UserDefaultsManager.shared
-        userDefaults.saveSettings(data)
+        viewModel.saveSettings()
     }
 
 

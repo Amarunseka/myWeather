@@ -14,7 +14,8 @@ enum SlideMenuState {
 class SlideMenuContainerViewModel {
     
     private var slideMenuState: SlideMenuState = .closed
-
+    
+    
     func toggleSlideMenu(navVC: UINavigationController, vc: UIViewController) {
         switch slideMenuState {
         case .closed:
@@ -47,16 +48,44 @@ class SlideMenuContainerViewModel {
     
     
     // ТУТ ИЗ ЗА ТОГО ЧТО СТАЮТСЯ ТАБ БАР АЙТЕМ ВОЗМОЖНО НУЖНО СДЕЛАТЬ ФУНКЦИЮ ВОЗВРАТА
-    func goToNewVC(mainVC: UIViewController, currentVC: inout UIViewController, newVC: UIViewController){
-        currentVC.view.removeFromSuperview()
-        currentVC.didMove(toParent: nil)
-
+    func didTapMenuItem(mainVC: MainPageViewController, currentVC: inout UIViewController?, newVC: UIViewController){
+        currentVC?.view.removeFromSuperview()
+        currentVC?.didMove(toParent: nil)
+        currentVC = nil
+        
+        if ((newVC as? MainPageViewController) == nil) {
+            let vc = newVC
+            mainVC.addChild(vc)
+            mainVC.view.addSubview(vc.view)
+            mainVC.navigationItem.rightBarButtonItem = nil
+            
+            vc.view.frame = mainVC.view.frame
+            vc.didMove(toParent: mainVC)
+            currentVC = vc
+        } else {
+            mainVC.navigationItem.rightBarButtonItem = mainVC.createRightBarButtonItem()
+        }
+    }
+    
+    func goToMain(mainVC: MainPageViewController, currentVC: inout UIViewController?){
+        currentVC?.view.removeFromSuperview()
+        currentVC?.didMove(toParent: nil)
+        currentVC = nil
+        mainVC.navigationItem.rightBarButtonItem = mainVC.createRightBarButtonItem()
+    }
+    
+    func goToChoseLocation(mainVC: UIViewController, currentVC: inout UIViewController?){
+        currentVC?.view.removeFromSuperview()
+        currentVC?.didMove(toParent: nil)
+        currentVC = nil
+        
+        let newVC = DependencyContainer.shared.makeChoseLocationVC()
         let vc = newVC
         mainVC.addChild(vc)
         mainVC.view.addSubview(vc.view)
-        newVC.view.frame = mainVC.view.frame
-        newVC.didMove(toParent: mainVC)
-        mainVC.title = newVC.title
-        currentVC = newVC
+        vc.view.frame = mainVC.view.frame
+        vc.didMove(toParent: mainVC)
+        vc.navigationItem.rightBarButtonItem?.isEnabled = false
+        currentVC = vc
     }
 }
