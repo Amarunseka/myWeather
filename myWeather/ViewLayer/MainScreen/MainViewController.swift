@@ -61,6 +61,12 @@ class MainViewController: UIViewController {
         }
         setupView()
         setConstraints()
+        
+        let mod = SettingsModel(tempMode: 3, windSpeedMode: 3, timeFormatMode: 3, sentNotifications: 3)
+        UserDefaultsManager.shared.save(key: .settings2, model: mod)
+        
+        let a = UserDefaultsManager.shared.fetchSettings2(key: .settings2, model: SettingsModel.self)
+        print("ASDFR", a)
     }
     
     
