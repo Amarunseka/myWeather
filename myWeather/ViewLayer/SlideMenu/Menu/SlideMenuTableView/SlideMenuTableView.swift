@@ -60,8 +60,8 @@ extension SlideMenuTableView: UITableViewDataSource, UITableViewDelegate {
         
         switch indexPath.row {
         case 0:
-            let cities = UserDefaultsManager.shared.cities[.cities]
-            if cities?.count == 0 {
+            let cities = UserDefaultsManager.shared.cities
+            if cities.count == 0 {
                 cell.imageView?.alpha = 0.3
                 cell.textLabel?.alpha = 0.3
                 return cell
@@ -81,8 +81,8 @@ extension SlideMenuTableView: UITableViewDataSource, UITableViewDelegate {
 
         switch indexPath.row {
         case 0:
-            let cities = UserDefaultsManager.shared.cities[.cities]
-            if cities?.count == 0 {
+            let cities = UserDefaultsManager.shared.cities
+            if cities.count == 0 {
             } else {
                 fallthrough
             }

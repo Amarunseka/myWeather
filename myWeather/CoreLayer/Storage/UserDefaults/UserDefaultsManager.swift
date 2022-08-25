@@ -13,61 +13,33 @@ enum UserDefaultsNames: String, Codable {
 }
 
 class UserDefaultsManager {
+    static let shared: UserDefaultsManager = .init()
     
     private lazy var defaults = UserDefaults.standard
     private lazy var decoder: JSONDecoder = .init()
     private lazy var encoder: JSONEncoder = .init()
-    
-    static let shared: UserDefaultsManager = .init()
-    
-    var settings = SettingsModel()
-    var cities: [UserDefaultsNames: [CityCoordinatesModel]] = [.cities: []]
-    
+        
+    public var settings = SettingsModel()
+    public var cities: [CityCoordinatesModel] = []
     
     // MARK: - Init
     private init() {
-        self.settings = (self.fetch(key: .settings, model: SettingsModel.self) as? SettingsModel) ?? SettingsModel()
-        
-//        UserDefaults.standard.removeObject(forKey: UserDefaultsNames.cities.rawValue) 
-        
-        
-        guard let city = defaults.data(forKey: UserDefaultsNames.cities.rawValue) else {return}
-        do {
-            cities = try decoder.decode([UserDefaultsNames: [CityCoordinatesModel]].self, from: city)
-        }
-        catch {
-            print("Coding city error", error)
-        }
+        self.settings = self.fetch(key: .settings, model: SettingsModel.self) as? SettingsModel ?? SettingsModel()
+        self.cities = self.fetch(key: .cities, model: [CityCoordinatesModel].self) as? [CityCoordinatesModel] ?? []
     }
     
-    //MARK: - Cities
-    func saveCities(_ data: CityCoordinatesModel) {
-        self.cities[.cities]?.append(data)
-        let key = UserDefaultsNames.cities.rawValue
-        
+    // MARK: - Methods
+    public func save<T: Encodable>(key: UserDefaultsNames, model: T) async throws {
         do {
-            let data = try self.encoder.encode(self.cities)
-            self.defaults.setValue(data, forKey: key)
+            let data = try self.encoder.encode(model.self)
+            self.defaults.setValue(data, forKey: key.rawValue)
         }
         catch {
             print("Coding error", error)
         }
     }
 
-    func save<T: Encodable>(key: UserDefaultsNames, model: T) async throws {
-        do {
-            let data = try self.encoder.encode(model.self)
-            self.defaults.setValue(data, forKey: key.rawValue)
-            print("save111")
-        }
-        catch {
-            print("Coding error", error)
-        }
-    }
-    
-    
-    
-    func fetch<T: Decodable>(key: UserDefaultsNames, model: T.Type) -> Decodable? {
+    public func fetch<T: Decodable>(key: UserDefaultsNames, model: T.Type) -> Decodable? {
         
         guard let data = defaults.data(forKey: key.rawValue) else {return nil}
         

@@ -19,8 +19,10 @@ class ChoseLocationViewModel {
                 let cityInfo = try await NetworkRequest.shared.requestCityCoordinates(for: city)
                 let (longitude, latitude, address) = self.convertCityInfo(data: cityInfo)
                 let data = CityCoordinatesModel(location: address, latitude: latitude, longitude: longitude)
+                UserDefaultsManager.shared.cities.append(data)
+                let model = UserDefaultsManager.shared.cities
 
-                UserDefaultsManager.shared.saveCities(data)
+                try await UserDefaultsManager.shared.save(key: .cities, model: model)
                 DispatchQueue.main.sync {
                     NotificationCenter.default.post(name: Notification.Name("addLocation"), object: nil)
                 }
