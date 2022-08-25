@@ -51,4 +51,8 @@ class UserDefaultsManager {
             return nil
         }
     }
+    
+    public func remove(key: UserDefaultsNames) async throws {
+        defaults.removeObject(forKey: key.rawValue)
+    }
 }
