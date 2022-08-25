@@ -40,7 +40,6 @@ class UserDefaultsManager {
     }
 
     public func fetch<T: Decodable>(key: UserDefaultsNames, model: T.Type) -> Decodable? {
-        
         guard let data = defaults.data(forKey: key.rawValue) else {return nil}
         
         do {
@@ -51,5 +50,9 @@ class UserDefaultsManager {
             print("Coding error", error)
             return nil
         }
+    }
+    
+    public func remove(key: UserDefaultsNames) async throws {
+        defaults.removeObject(forKey: key.rawValue)
     }
 }

@@ -98,9 +98,10 @@ class MainPageViewController: UIPageViewController {
     
     @objc
     private func didGeolocationTap(){
-        print("didGeolocationTap")
+        NotificationCenter.default.post(name: Notification.Name("noLocation"), object: nil)
+
 //         очистка USERDefaults
-//        UserDefaults.standard.removeObject(forKey: UserDefaultsNames.cities.rawValue)
+//        Task { try await UserDefaultsManager.shared.remove(key: .cities) }
     }
     
     @objc

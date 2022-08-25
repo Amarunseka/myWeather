@@ -16,7 +16,7 @@ class OnBoardingViewController: UIViewController {
     private let descriptionRequestPurposeLabel = UILabel.setWhiteLabel(text: "To get more accurate weather forecast while driving or traveling", fontSize: 16, fontStyle: .regular)
     private let changeChoseDescriptionLabel = UILabel.setWhiteLabel(text: "You can change your choice at any time in your app's menu", fontSize: 16, fontStyle: .regular)
     private let useAppLocationButton = UIButton.setButton(title: "use application's location", color: .specialOrange, fontSize: 16)
-    private let addMyselfLocationButton = UIButton.setButton(title: "NO, I'LL ADD LOCATION BY MYSELF", color: .clear, fontSize: 16)
+    private let addMyselfLocationButton = UIButton.setButton(title: "NO, I'LL ADD A LOCATION BY MYSELF", color: .clear, fontSize: 16)
 
     // MARK: - Life cycle
     override func viewDidLoad() {

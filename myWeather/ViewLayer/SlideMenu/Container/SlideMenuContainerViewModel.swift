@@ -66,26 +66,4 @@ class SlideMenuContainerViewModel {
             mainVC.navigationItem.rightBarButtonItem = mainVC.createRightBarButtonItem()
         }
     }
-    
-    func goToMain(mainVC: MainPageViewController, currentVC: inout UIViewController?){
-        currentVC?.view.removeFromSuperview()
-        currentVC?.didMove(toParent: nil)
-        currentVC = nil
-        mainVC.navigationItem.rightBarButtonItem = mainVC.createRightBarButtonItem()
-    }
-    
-    func goToChoseLocation(mainVC: UIViewController, currentVC: inout UIViewController?){
-        currentVC?.view.removeFromSuperview()
-        currentVC?.didMove(toParent: nil)
-        currentVC = nil
-        
-        let newVC = DependencyContainer.shared.makeChoseLocationVC()
-        let vc = newVC
-        mainVC.addChild(vc)
-        mainVC.view.addSubview(vc.view)
-        vc.view.frame = mainVC.view.frame
-        vc.didMove(toParent: mainVC)
-        vc.navigationItem.rightBarButtonItem?.isEnabled = false
-        currentVC = vc
-    }
 }

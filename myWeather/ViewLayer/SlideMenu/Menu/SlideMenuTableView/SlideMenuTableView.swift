@@ -37,7 +37,7 @@ class SlideMenuTableView: UITableView {
     
     @objc
     private func reload(){
-            self.reloadData()
+        self.reloadData()
     }
 }
 

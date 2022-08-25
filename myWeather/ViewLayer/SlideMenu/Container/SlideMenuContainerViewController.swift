@@ -54,12 +54,13 @@ class SlideMenuContainerViewController: UIViewController {
     
     @objc
     private func goToMain(){
-            self.viewModel.goToMain(mainVC: self.mainVC, currentVC: &self.currentVC)
+        viewModel.didTapMenuItem(mainVC: mainVC, currentVC: &currentVC, newVC: mainVC)
     }
     
     @objc
     private func goToChoseLocation(){
-        viewModel.goToChoseLocation(mainVC: mainVC, currentVC: &currentVC)
+        let newVC = DependencyContainer.shared.makeChoseLocationVC()
+        viewModel.didTapMenuItem(mainVC: mainVC, currentVC: &currentVC, newVC: newVC)
     }
 }
 

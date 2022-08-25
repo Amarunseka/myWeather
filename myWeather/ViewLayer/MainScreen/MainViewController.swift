@@ -14,7 +14,11 @@ class MainViewController: UIViewController {
     
     private lazy var detailFor24HoursButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Details for 24 hours", for: .normal)
+        let text = "Details for 24 hours"
+        let attributesString = NSMutableAttributedString(string: text)
+        attributesString.addAttributes([NSAttributedString.Key.underlineStyle : NSUnderlineStyle.single.rawValue],
+                                       range: NSRange(location: 0, length: text.count))
+        button.setAttributedTitle(attributesString, for: .normal)
         button.tintColor = .black
         button.titleLabel?.textAlignment = .right
         button.titleLabel?.font = .rubik(size: 18, style: .regular)

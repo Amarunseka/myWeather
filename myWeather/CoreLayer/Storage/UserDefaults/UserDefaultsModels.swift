@@ -15,7 +15,7 @@ struct SettingsModel: Codable {
 }
 
 struct CityCoordinatesModel: Codable {
-    var location: String = ""
-    var latitude: String = ""
-    var longitude: String = ""
+    var location: String
+    var latitude: String
+    var longitude: String
 }
