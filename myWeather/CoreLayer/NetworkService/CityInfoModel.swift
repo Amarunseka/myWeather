@@ -24,6 +24,7 @@ struct Response: Codable {
 // MARK: - GeoObjectCollection
 struct GeoObjectCollection: Codable {
     let featureMember: [FeatureMember]
+    
 //    let metaDataProperty: GeoObjectCollectionMetaDataProperty
 }
 
@@ -38,17 +39,19 @@ struct FeatureMember: Codable {
 
 // MARK: - GeoObject
 struct GeoObjectCoder: Codable {
-    let point: Point // оставить
+    let point: Point
+    let metaDataProperty: GeoObjectMetaDataProperty
+
 //    let boundedBy: BoundedBy
 //    let geoObjectDescription: String
-    let metaDataProperty: GeoObjectMetaDataProperty
 //    let name: String
 
     enum CodingKeys: String, CodingKey {
         case point = "Point"
+        case metaDataProperty
+
 //        case boundedBy
 //        case geoObjectDescription = "description"
-        case metaDataProperty
 //        case name
     }
 }
@@ -78,12 +81,14 @@ struct GeoObjectMetaDataProperty: Codable {
 
 // MARK: - GeocoderMetaData
 struct GeocoderMetaData: Codable {
-    let address: Address // оставить
+    let address: Address
+    
 //    let addressDetails: AddressDetails
 //    let kind, precision, text: String
 
     enum CodingKeys: String, CodingKey {
         case address = "Address"
+        
 //        case addressDetails = "AddressDetails"
 //        case kind, precision, text
     }
@@ -91,9 +96,10 @@ struct GeocoderMetaData: Codable {
 
 // MARK: - Address
 struct Address: Codable {
+    let formatted: String
+
 //    let components: [Component]
 //    let countryCode
-    let formatted: String
 
     enum CodingKeys: String, CodingKey {
 //        case components = "Components"

@@ -80,6 +80,4 @@ class NetworkRequest {
 
         return try await AF.request(urlCoder, method: .get).serializingDecodable(CityInfoModel.self).value
     }
-    
-    
 }

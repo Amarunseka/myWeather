@@ -10,51 +10,54 @@ import Foundation
 // MARK: - NetWeatherModel
 struct NetWeatherModel: Codable {
     let now: Int
-    let nowDt: String
-    let info: Info
     var fact: Fact
     let forecasts: [Forecast]
+
+//    let nowDt: String
+//    let info: Info
 }
 
-// MARK: - Info
-struct Info: Codable {
-    let lat: Double
-    let lon: Double
-    let url: String
-}
+//// MARK: - Info
+//struct Info: Codable {
+//    let lat: Double
+//    let lon: Double
+//    let url: String
+//}
 
 // MARK: - Fact
 struct Fact: Codable {
     var temp: Int
     let feelsLike: Int
     let cloudness: Double
-    let tempWater: Int?
-    let icon: String
     let condition: String
     let windSpeed: Double
-    let windGust: Double
-    let windDir: String
-    let pressureMm: Int
-    let pressurePa: Int
     let humidity: Int
-    let daytime: String
-    let polar: Bool
-    let season: String
-    let obsTime: Int
+
+//    let tempWater: Int?
+//    let icon: String
+//    let windGust: Double
+//    let windDir: String
+//    let pressureMm: Int
+//    let pressurePa: Int
+//    let daytime: String
+//    let polar: Bool
+//    let season: String
+//    let obsTime: Int
 }
 
 // MARK: - Forecast
 struct Forecast: Codable {
     let date: String
     let dateTs: Int
-    let week: Int
-//    let humidity: Int
     let sunrise: String
     let sunset: String
-    let moonCode: Int
-    let moonText: String
     let hours: [Hour]
     let parts: Parts
+
+//    let week: Int
+//    let humidity: Int
+//    let moonCode: Int
+//    let moonText: String
 }
 
 // MARK: - Hour
@@ -62,59 +65,62 @@ struct Hour: Codable {
     let cloudness: Double
     let condition: String
     let feelsLike: Int
-    let hour: String
     let hourTs: Int
-    let humidity: Int
-    let icon: String
-    let isThunder: Bool
-//    let precMm: Int? // с этим не ищет зарубежом
-    let precPeriod: Int
-    let precProb: Int
-//    let precStrength: Int // с этим не ищет зарубежом
-    let precType: Int
-    let pressureMm: Int
-    let pressurePa: Int
-    let soilMoisture: Double?
-    let soilTemp: Int?
     let temp: Int
-    let uvIndex: Int
     let windDir: String
-    let windGust: Double
     let windSpeed: Double
+    
+//    let hour: String
+//    let humidity: Int
+//    let icon: String
+//    let isThunder: Bool
+//    let precMm: Int? // с этим не ищет зарубежом
+//    let precPeriod: Int
+//    let precProb: Int
+//    let precStrength: Int // с этим не ищет зарубежом
+//    let precType: Int
+//    let pressureMm: Int
+//    let pressurePa: Int
+//    let soilMoisture: Double?
+//    let soilTemp: Int?
+//    let uvIndex: Int
+//    let windGust: Double
 }
 
 struct Parts: Codable {
     let day: PartOfTheDay
-    let dayShort: PartOfTheDay
-    let evening: PartOfTheDay
-    let morning: PartOfTheDay
     let night: PartOfTheDay
-    let nightShort: PartOfTheDay
+    
+//    let dayShort: PartOfTheDay
+//    let evening: PartOfTheDay
+//    let morning: PartOfTheDay
+//    let nightShort: PartOfTheDay
 }
 
 // MARK: - PartOfTheDay
 struct PartOfTheDay: Codable {
-    let temp: Int?
     let tempMin: Int?
     let tempMax: Int?
     let tempAvg: Int?
     let feelsLike: Int
-    let icon: String
     let condition: String
-    let daytime: String
-    let polar: Bool
     let windSpeed: Double
-    let windGust: Double
     let windDir: String
-    let pressureMm: Int
-    let pressurePa: Int
     let humidity: Int
-    let precMm: Double
-    let precPeriod: Int
-    let precProb: Int
-//    let precStrength: Int? // с этим не ищет зарубежом
     let cloudness: Double
     let uvIndex: Int?
+    
+//    let temp: Int?
+//    let icon: String
+//    let daytime: String
+//    let polar: Bool
+//    let windGust: Double
+//    let pressureMm: Int
+//    let pressurePa: Int
+//    let precMm: Double
+//    let precPeriod: Int
+//    let precProb: Int
+//    let precStrength: Int? // с этим не ищет зарубежом
 }
 
 

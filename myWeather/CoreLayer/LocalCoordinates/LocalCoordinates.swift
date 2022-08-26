@@ -9,14 +9,10 @@ import Foundation
 import CoreLocation
 
 class LocalCoordinates: NSObject {
-    
-    // 1 Добавить в infoplist:
-    // строку - Privacy - Location When In Use Usage Description
-    // туда добавить описание которое будет появляться при запросе использования геолокации
-    // в edit Scheme выбрать локацию Moscow
+
+    static var coordinates = CLLocationCoordinate2D()
     
     private let locationManager = CLLocationManager()
-    static var coordinates = CLLocationCoordinate2D()
     
     override init() {
         super.init()

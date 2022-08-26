@@ -38,17 +38,38 @@ class SevenDaysForecastTableView: UITableView {
 // MARK: - Set constraints
 extension SevenDaysForecastTableView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        1
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
         days.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = self.dequeueReusableCell(withIdentifier: String(describing: SevenDaysForecastTableViewCell.self), for: indexPath) as? SevenDaysForecastTableViewCell else {return UITableViewCell()}
-        cell.data = days[indexPath.row]
+        cell.accessoryType = .disclosureIndicator
+        cell.tintColor = UIColor.specialDarkBlue
+        let image = UIImage(named:"sideArrow")?.withRenderingMode(.alwaysTemplate)
+
+        let checkmark  = UIImageView(frame:CGRect(x:0, y:0, width:(image?.size.width)!, height:(image?.size.height)!));
+        checkmark.image = image
+        checkmark.backgroundColor = .specialLightBlue
+        cell.accessoryView = checkmark
+
+        cell.data = days[indexPath.section]
         return cell
     }
     
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        UIView(frame: .zero)
+    }
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        65
+        55
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        10
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
