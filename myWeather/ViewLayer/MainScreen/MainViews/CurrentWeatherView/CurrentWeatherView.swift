@@ -110,6 +110,10 @@ class CurrentWeatherView: UIView {
 extension CurrentWeatherView {
     private func setConstraints(){
         NSLayoutConstraint.activate([
+            currentTimeAndDateLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
+            currentTimeAndDateLabel.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0),
+
+            
             sunEllipseImageView.topAnchor.constraint(equalTo: topAnchor, constant: 17),
             sunEllipseImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 31),
             sunEllipseImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -31),
@@ -182,10 +186,6 @@ extension CurrentWeatherView {
 
             humidityConditionLabel.topAnchor.constraint(equalTo: windConditionLabel.topAnchor, constant: 0),
             humidityConditionLabel.leadingAnchor.constraint(equalTo: humidityConditionImageView.trailingAnchor, constant: 2),
-
-            
-            currentTimeAndDateLabel.topAnchor.constraint(equalTo: windConditionLabel.bottomAnchor, constant: 25),
-            currentTimeAndDateLabel.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0)
         ])
     }
 }
