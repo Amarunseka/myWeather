@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 struct WeatherData {
-    static var weatherData: NetWeatherModel?
+    static var weatherData: WeatherModel?
 }
 
 struct WeatherConditionIcons {

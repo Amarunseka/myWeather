@@ -22,6 +22,7 @@ class ChoseLocationViewModel {
                 UserDefaultsManager.shared.cities.append(data)
                 let model = UserDefaultsManager.shared.cities
 
+                
                 try await UserDefaultsManager.shared.save(key: .cities, model: model)
                 DispatchQueue.main.sync {
                     NotificationCenter.default.post(name: Notification.Name("addLocation"), object: nil)
@@ -33,16 +34,13 @@ class ChoseLocationViewModel {
     }
 
     // MARK: - Private methods
-    private func convertCityInfo(data: CityInfoModel?) -> (String, String, String){
-        if let coder = data?.response.geoObjectCollection.featureMember,
-           !coder.isEmpty {
-            let coordinates = coder[0].geoObject.point
-            let coordinatesArray = coordinates.pos.split(separator: " ")
-            
+    private func convertCityInfo(data: CityInfoModelContainer?) -> (String, String, String){
+        
+        if let data = data {
+            let address = data.address
+            let coordinatesArray = data.coordinates.split(separator: " ")
             let longitude = coordinatesArray[0]
             let latitude = coordinatesArray[1]
-            let address = coder[0].geoObject.metaDataProperty.geocoderMetaData.address.formatted
-            
             return("\(longitude)", "\(latitude)", "\(address)")
         } else {
             return ("","","")

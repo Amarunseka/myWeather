@@ -13,6 +13,8 @@ class MainViewModel {
     var outputSettings = UserDefaultsManager.shared.settings
     var coordinates = LocalCoordinates()
     var cityInfo: CityCoordinatesModel
+    let saver = SaveHelperForCoreData()
+
     
     // MARK: - Life cycle
     init(cityInfo: CityCoordinatesModel) {
@@ -20,10 +22,58 @@ class MainViewModel {
     }
     
     // MARK: - Public methods
+    func fetchWeather(viewController: UIViewController, completion: @escaping (Bool) -> ()){
+        
+        fetchWeatherData { [weak self] netResult in
+            guard let self = self else {return}
+            
+            switch netResult {
+            case true:
+                print(true)
+                
+                if let weather = WeatherData.weatherData {
+                    self.saver.saveWeather(weather: weather, for: self.cityInfo.location)
+                }
+                completion(true)
+                
+            case false:
+                self.unfoldWeatherFromCD { CDResult in
+                    
+                    if CDResult {
+                        
+                        // ПЕРЕДЕЛАТЬ АЛЕРТ А ОТДЕЛЬНЫЙ ФАЙЛ
+                        let alert = UIAlertController(title: "Error net loading",
+                                                      message: "Couldn't download the weather data from net. There is a local save data. Show?",
+                                                      preferredStyle: .alert)
+                        let ok = UIAlertAction(title: "Ok", style: .default) {_ in
+                            completion(true)
+                        }
+                        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+                            completion(false)
+                        }
+                        
+                        alert.addAction(cancel)
+                        alert.addAction(ok)
+                        DispatchQueue.main.async {
+                            viewController.present(alert, animated: true)
+                        }
+                        
+                        
+                        print("Нет соединения, но есть сохраненные данные. Показать?")
+                    } else {
+                        print("Нет соединения попробуйте позднее")
+                        completion(false)
+                    }
+                }
+            }
+        }
+    }
+
+
     func fetchWeatherData(completion: @escaping ((Bool)->())){
         Task {
             do {
-                let data = try await NetworkRequest.shared.requestWeatherData()
+                let data = try await NetworkRequest.shared.requestCityWeatherData(latitude: cityInfo.latitude, longitude: cityInfo.longitude)
                 WeatherData.weatherData = data
                 completion(true)
             } catch {
@@ -33,18 +83,23 @@ class MainViewModel {
         }
     }
     
-    func fetchSpecificWeatherData(completion: @escaping ((Bool)->())){
-        Task {
-            do {
-                let data = try await NetworkRequest.shared.requestSpecificCityWeatherData(latitude: cityInfo.latitude, longitude: cityInfo.longitude)
-                WeatherData.weatherData = data
+    
+    func unfoldWeatherFromCD(completion: @escaping ((Bool)->())){
+        let saver = SaveHelperForCoreData()
+
+        saver.fetchWeatherFromCDM(for: cityInfo.location) {result in
+            switch result {
+                
+            case .success(let weather):
+                WeatherData.weatherData = weather
                 completion(true)
-            } catch {
-                print(error)
+            case .failure(let error):
                 completion(false)
+                print(error)
             }
         }
     }
+
     
     
     func goToDetailVC(navigation: UIViewController){
