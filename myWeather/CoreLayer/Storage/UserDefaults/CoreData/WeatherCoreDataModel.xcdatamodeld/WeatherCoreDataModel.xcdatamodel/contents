@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21279" systemVersion="21G83" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CityCDM" representedClassName="CityCDM" syncable="YES" codeGenerationType="class">
+        <attribute name="address" optional="YES" attributeType="String"/>
+        <attribute name="coordinates" optional="YES" attributeType="String"/>
+        <relationship name="weather" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WeatherCDM" inverseName="city" inverseEntity="WeatherCDM"/>
+    </entity>
+    <entity name="FactCDM" representedClassName="FactCDM" syncable="YES" codeGenerationType="class">
+        <attribute name="cloudness" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="condition" optional="YES" attributeType="String"/>
+        <attribute name="feelsLike" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="humidity" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="temp" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="windSpeed" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="weather" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WeatherCDM" inverseName="fact" inverseEntity="WeatherCDM"/>
+    </entity>
+    <entity name="ForecastCDM" representedClassName="ForecastCDM" syncable="YES" codeGenerationType="class">
+        <attribute name="date" optional="YES" attributeType="String"/>
+        <attribute name="dateTs" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="sunrise" optional="YES" attributeType="String"/>
+        <attribute name="sunset" optional="YES" attributeType="String"/>
+        <relationship name="hours" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="HourCDM" inverseName="forecast" inverseEntity="HourCDM"/>
+        <relationship name="parts" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="PartsCDM" inverseName="forecast" inverseEntity="PartsCDM"/>
+        <relationship name="weather" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WeatherCDM" inverseName="forecasts" inverseEntity="WeatherCDM"/>
+    </entity>
+    <entity name="HourCDM" representedClassName="HourCDM" syncable="YES" codeGenerationType="class">
+        <attribute name="cloudness" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="condition" optional="YES" attributeType="String"/>
+        <attribute name="feelsLike" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="hourTs" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="temp" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="windDir" optional="YES" attributeType="String"/>
+        <attribute name="windSpeed" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="forecast" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ForecastCDM" inverseName="hours" inverseEntity="ForecastCDM"/>
+    </entity>
+    <entity name="PartsCDM" representedClassName="PartsCDM" syncable="YES" codeGenerationType="class">
+        <attribute name="cloudness" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="condition" optional="YES" attributeType="String"/>
+        <attribute name="feelsLike" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="humidity" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="tempAvg" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="tempMax" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="tempMin" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="uvIndex" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="windDir" optional="YES" attributeType="String"/>
+        <attribute name="windSpeed" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="forecast" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ForecastCDM" inverseName="parts" inverseEntity="ForecastCDM"/>
+    </entity>
+    <entity name="WeatherCDM" representedClassName="WeatherCDM" syncable="YES" codeGenerationType="class">
+        <attribute name="now" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="city" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CityCDM" inverseName="weather" inverseEntity="CityCDM"/>
+        <relationship name="fact" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FactCDM" inverseName="weather" inverseEntity="FactCDM"/>
+        <relationship name="forecasts" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="ForecastCDM" inverseName="weather" inverseEntity="ForecastCDM"/>
+    </entity>
+</model>

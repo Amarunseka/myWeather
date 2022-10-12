@@ -10,7 +10,7 @@ import UIKit
 class CurrentWeatherView: UIView {
     
     // MARK: - Initial properties
-    var data: NetWeatherModel? {
+    var data: WeatherModel? {
         didSet{
             guard let data = data else {return}
             currentTimeAndDateLabel.text = data.now.toDate().toString(type: .fullDate)

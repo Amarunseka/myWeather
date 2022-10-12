@@ -32,6 +32,17 @@ class MainPageViewController: UIPageViewController {
         setupView()
         setupNavigationBar()
         NotificationCenter.default.addObserver(self, selector: #selector(addNewLocation), name: Notification.Name("addLocation"), object: nil)
+        
+        
+        // MARK: - Удалить
+//        coordinator.fetchAll(CityCDM.self) { [weak self] result in
+//            switch result {
+//            case .success(let result):
+//                print("111111", result[0].address)
+//            case .failure(let error):
+//                print (error)
+//            }
+//        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

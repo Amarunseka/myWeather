@@ -7,161 +7,189 @@
 
 import Foundation
 
-// MARK: - CoordinatesCoderModel
-struct CityInfoModel: Codable {
-    let response: Response
-}
+struct CityInfoModelContainer: Decodable {
+    var coordinates = String()
+    var address = String()
+    var weather: WeatherModel?
+    
+    var keyedValues: [String: Any] {
+        return [
+            "coordinates": self.coordinates,
+            "address": self.address,
+            "weather": self.weather ?? nil
+        ]
+    }
 
-// MARK: - Response
-struct Response: Codable {
-    let geoObjectCollection: GeoObjectCollection
 
     enum CodingKeys: String, CodingKey {
+        case response
+    }
+    
+    private enum ResponseKeys: String, CodingKey {
         case geoObjectCollection = "GeoObjectCollection"
     }
-}
-
-// MARK: - GeoObjectCollection
-struct GeoObjectCollection: Codable {
-    let featureMember: [FeatureMember]
     
-//    let metaDataProperty: GeoObjectCollectionMetaDataProperty
-}
-
-// MARK: - FeatureMember
-struct FeatureMember: Codable {
-    let geoObject: GeoObjectCoder
-
-    enum CodingKeys: String, CodingKey {
+    private enum GeoObjectCollectionKeys: String, CodingKey {
+        case featureMember = "featureMember"
+    }
+    
+    private  enum FeatureMemberKeys: String, CodingKey {
         case geoObject = "GeoObject"
     }
-}
-
-// MARK: - GeoObject
-struct GeoObjectCoder: Codable {
-    let point: Point
-    let metaDataProperty: GeoObjectMetaDataProperty
-
-//    let boundedBy: BoundedBy
-//    let geoObjectDescription: String
-//    let name: String
-
-    enum CodingKeys: String, CodingKey {
+    
+    private enum GeoObjectKeys: String, CodingKey {
         case point = "Point"
         case metaDataProperty
-
-//        case boundedBy
-//        case geoObjectDescription = "description"
-//        case name
     }
-}
-
-//// MARK: - BoundedBy
-//struct BoundedBy: Codable {
-//    let envelope: Envelope
-//
-//    enum CodingKeys: String, CodingKey {
-//        case envelope = "Envelope"
-//    }
-//}
-
-//// MARK: - Envelope
-//struct Envelope: Codable {
-//    let lowerCorner, upperCorner: String
-//}
-
-// MARK: - GeoObjectMetaDataProperty
-struct GeoObjectMetaDataProperty: Codable {
-    let geocoderMetaData: GeocoderMetaData
-
-    enum CodingKeys: String, CodingKey {
-        case geocoderMetaData = "GeocoderMetaData"
-    }
-}
-
-// MARK: - GeocoderMetaData
-struct GeocoderMetaData: Codable {
-    let address: Address
     
-//    let addressDetails: AddressDetails
-//    let kind, precision, text: String
-
-    enum CodingKeys: String, CodingKey {
-        case address = "Address"
+    private enum PointKey: String, CodingKey {
+        case pos
+    }
+    
+    private enum MetaDataPropertyKeys: String, CodingKey {
+        case geocoderMetaData = "GeocoderMetaData"
         
-//        case addressDetails = "AddressDetails"
-//        case kind, precision, text
+        enum GeocoderMetaDataKeys: String, CodingKey {
+            case address = "Address"
+            
+            enum AddressKeys: String, CodingKey {
+                case formatted
+            }
+        }
+    }
+
+    init(from decoder: Decoder) throws {
+
+        let mainContainer = try? decoder.container(keyedBy: CodingKeys.self)
+        
+        let responseContainer = try? mainContainer?.nestedContainer(keyedBy: ResponseKeys.self, forKey: .response)
+        let geoObjectCollectionContainer = try? responseContainer?.nestedContainer(keyedBy: GeoObjectCollectionKeys.self, forKey: .geoObjectCollection)
+        
+        var featureMemberContainer = try? geoObjectCollectionContainer?.nestedUnkeyedContainer(forKey: .featureMember)
+        let firstContainer = try? featureMemberContainer?.nestedContainer(keyedBy: FeatureMemberKeys.self)
+        
+        let geoObjectContainer = try? firstContainer?.nestedContainer(keyedBy: GeoObjectKeys.self, forKey: .geoObject)
+        
+        let pointContainer = try? geoObjectContainer?.nestedContainer(keyedBy: PointKey.self, forKey: .point)
+        
+        let metaDataPropertyContainer = try? geoObjectContainer?.nestedContainer(keyedBy: MetaDataPropertyKeys.self, forKey: .metaDataProperty)
+        let geocoderMetaDataContainer = try? metaDataPropertyContainer?.nestedContainer(keyedBy: MetaDataPropertyKeys.GeocoderMetaDataKeys.self, forKey: .geocoderMetaData)
+        let addressContainer = try? geocoderMetaDataContainer?.nestedContainer(keyedBy: MetaDataPropertyKeys.GeocoderMetaDataKeys.AddressKeys.self, forKey: .address)
+        
+        let pos = try? pointContainer?.decode(String.self, forKey: .pos)
+        let formatted = try? addressContainer?.decode(String.self, forKey: .formatted)
+
+        if let pos = pos,
+           let formatted = formatted {
+            self.coordinates = pos
+            self.address = formatted
+        }
     }
 }
 
-// MARK: - Address
-struct Address: Codable {
-    let formatted: String
 
-//    let components: [Component]
-//    let countryCode
 
-    enum CodingKeys: String, CodingKey {
-//        case components = "Components"
-//        case countryCode = "country_code"
-        case formatted
-    }
-}
 
-// MARK: - Component
-//struct Component: Codable {
-//    let kind, name: String
-//}
 
-//// MARK: - AddressDetails
-//struct AddressDetails: Codable {
-//    let country: CountryCoder
+// MARK: - Old Spare Objects
+
+//"response": {
+//    "GeoObjectCollection": {
 //
-//    enum CodingKeys: String, CodingKey {
-//        case country = "Country"
+//        "featureMember": [
+//            {
+//                "GeoObject": {
+//
+//                    "Point": {
+//                        "pos": "37.617698 55.755864"
+//                    },
+//                    "metaDataProperty": {
+//                        "GeocoderMetaData": {
+//                            "Address": {
+//                                "formatted": "Russia, Moscow"
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        ]
 //    }
 //}
 
-//// MARK: - Country
-//struct CountryCoder: Codable {
-//    let addressLine: String
-//    let administrativeArea: AdministrativeArea
-//    let countryName: String
-//    let countryNameCode: String
+
 //
-//    enum CodingKeys: String, CodingKey {
-//        case addressLine = "AddressLine"
-//        case administrativeArea = "AdministrativeArea"
-//        case countryName = "CountryName"
-//        case countryNameCode = "CountryNameCode"
-//    }
+//// MARK: - CoordinatesCoderModel
+//struct CityInfoModel: Codable {
+//    let response: Response
 //}
-
-//// MARK: - AdministrativeArea
-//struct AdministrativeArea: Codable {
-//    let administrativeAreaName: String
+//
+//// MARK: - Response
+//struct Response: Codable {
+//    let geoObjectCollection: GeoObjectCollection
 //
 //    enum CodingKeys: String, CodingKey {
-//        case administrativeAreaName = "AdministrativeAreaName"
-//    }
-//}
-
-// MARK: - Point
-struct Point: Codable {
-    let pos: String
-}
-
-//// MARK: - GeoObjectCollectionMetaDataProperty
-//struct GeoObjectCollectionMetaDataProperty: Codable {
-//    let geocoderResponseMetaData: GeocoderResponseMetaData
-//
-//    enum CodingKeys: String, CodingKey {
-//        case geocoderResponseMetaData = "GeocoderResponseMetaData"
+//        case geoObjectCollection = "GeoObjectCollection"
 //    }
 //}
 //
-//// MARK: - GeocoderResponseMetaData
-//struct GeocoderResponseMetaData: Codable {
-//    let boundedBy: BoundedBy
-//    let found, request, results: String
+//// MARK: - GeoObjectCollection
+//struct GeoObjectCollection: Codable {
+//    let featureMember: [FeatureMember]
 //}
+//
+//// MARK: - FeatureMember
+//struct FeatureMember: Codable {
+//    let geoObject: GeoObjectCoder
+//
+//    enum CodingKeys: String, CodingKey {
+//        case geoObject = "GeoObject"
+//    }
+//}
+//
+//// MARK: - GeoObject
+//struct GeoObjectCoder: Codable {
+//    let point: Point
+//    let metaDataProperty: GeoObjectMetaDataProperty
+//
+//    enum CodingKeys: String, CodingKey {
+//        case point = "Point"
+//        case metaDataProperty
+//    }
+//}
+//
+//// MARK: - GeoObjectMetaDataProperty
+//struct GeoObjectMetaDataProperty: Codable {
+//    let geocoderMetaData: GeocoderMetaData
+//
+//    enum CodingKeys: String, CodingKey {
+//        case geocoderMetaData = "GeocoderMetaData"
+//    }
+//}
+//
+//// MARK: - GeocoderMetaData
+//struct GeocoderMetaData: Codable {
+//    let address: Address
+//
+//    enum CodingKeys: String, CodingKey {
+//        case address = "Address"
+//    }
+//}
+//
+//// MARK: - Address
+//struct Address: Codable {
+//    let formatted: String
+//
+//    enum CodingKeys: String, CodingKey {
+//        case formatted
+//    }
+//}
+//
+//// MARK: - Point
+//struct Point: Codable {
+//    let pos: String
+//}
+//
+//
+//
+//
+

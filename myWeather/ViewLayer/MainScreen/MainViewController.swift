@@ -45,18 +45,43 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        viewModel.fetchSpecificWeatherData { [weak self] result in
-            guard let self = self else {return}
+        let saver = SaveHelperForCoreData()
+        viewModel.fetchWeather(viewController: self) { result in
             if result {
                 guard let weatherData = WeatherData.weatherData else {return}
                 DispatchQueue.main.async {
                     self.setParametersCurrenWeatherView(data: weatherData)
                     self.setParametersHoursForecastCollectionView(data: weatherData.forecasts[0].hours)
                     self.setParametersSevenDaysForecastTableView(data: weatherData.forecasts)
+                    
+                    let city = self.viewModel.cityInfo.location
+                        saver.fetchWeatherFromCDM(for: city) { result in
+                            switch result {
+                                
+                            case .success(let weather):
+                                print("weather?.forecasts.count: ",weather?.forecasts.count)
+                            case .failure(_):
+                                print ("EEEEERRRRRROOOOORRRRR")
+                            }
+                    }
                 }
             }
         }
+        
+        
+//        viewModel.fetchWeatherData { [weak self] result in
+//            guard let self = self else {return}
+//            if result {
+//                guard let weatherData = WeatherData.weatherData else {return}
+//                DispatchQueue.main.async {
+//                    self.setParametersCurrenWeatherView(data: weatherData)
+//                    self.setParametersHoursForecastCollectionView(data: weatherData.forecasts[0].hours)
+//                    self.setParametersSevenDaysForecastTableView(data: weatherData.forecasts)
+//                }
+//            }
+//
+//            //            NetworkRequest.shared.requestCityCoordinates22()
+//        }
         
         // УДАЛИТЬ!!!!
         let asd = UserDefaultsManager.shared.cities
@@ -97,7 +122,7 @@ class MainViewController: UIViewController {
         viewModel.goToDayForecast(navigation: self)
     }
 
-    private func setParametersCurrenWeatherView(data:NetWeatherModel) {
+    private func setParametersCurrenWeatherView(data:WeatherModel) {
         currentWeatherView.data = data
     }
     
@@ -116,11 +141,14 @@ class MainViewController: UIViewController {
 // MARK: - Set constraints
 extension MainViewController {
     private func setConstraints(){
+        print(4 / 2)
+        print(("AAAAAAAAAAAAAAA", UIScreen.main.bounds.width))
+
         NSLayoutConstraint.activate([
             currentWeatherView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             currentWeatherView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
             currentWeatherView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
-            currentWeatherView.heightAnchor.constraint(equalToConstant: 212),
+            currentWeatherView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 1.95),
             
             detailFor24HoursButton.topAnchor.constraint(equalTo: currentWeatherView.bottomAnchor, constant: 25),
             detailFor24HoursButton.trailingAnchor.constraint(equalTo: currentWeatherView.trailingAnchor, constant: 0),
