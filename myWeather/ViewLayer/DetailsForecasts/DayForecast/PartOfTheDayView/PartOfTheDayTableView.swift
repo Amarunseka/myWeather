@@ -11,6 +11,7 @@ class PartOfTheDayTableView: UITableView {
     
     // MARK: - Initial properties
     var data = [ModelTableView]()
+    private let sizes = SizesStorage.self
     
     // MARK: - Life cycle
     init() {
@@ -33,11 +34,7 @@ class PartOfTheDayTableView: UITableView {
         self.separatorInset.left = 0
     }
     
-    
     // MARK: - Public methods
-    
-    
-    
 }
 
 // MARK: - Set constraints
@@ -53,7 +50,7 @@ extension PartOfTheDayTableView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        40
+        sizes.cellSizes.parts.1
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

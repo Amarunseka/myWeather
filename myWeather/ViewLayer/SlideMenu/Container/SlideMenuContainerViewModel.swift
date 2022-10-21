@@ -63,7 +63,7 @@ class SlideMenuContainerViewModel {
             vc.didMove(toParent: mainVC)
             currentVC = vc
         } else {
-            mainVC.navigationItem.rightBarButtonItem = mainVC.createRightBarButtonItem()
+                mainVC.navigationItem.rightBarButtonItem = mainVC.createRightBarButtonItem()
         }
     }
 }

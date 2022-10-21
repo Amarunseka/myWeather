@@ -50,7 +50,7 @@ class DailyForecastViewController: DetailsForecastCommonViewController {
 extension DailyForecastViewController {
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: sizes.barButtonItemSizes.menuIconWidth),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)

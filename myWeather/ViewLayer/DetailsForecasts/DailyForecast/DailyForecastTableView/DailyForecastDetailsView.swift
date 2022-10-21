@@ -10,18 +10,24 @@ import UIKit
 class DailyForecastDetailsView: UIView {
     
     // MARK: - Initial properties
-    var iconImageView: UIImageView
     var nameLabel: UILabel
     var descriptionLabel: UILabel?
-
+    
     // MARK: - Life cycle
     init(icon: String, name: String, description: String?){
-        self.iconImageView = UIImageView.setImage(icon)
-        self.nameLabel = UILabel.setBlackLabel(text: name, fontSize: 14, fontStyle: .regular)
+        let sizes = SizesStorage.self
+        
+        let label: UILabel = {
+            let label = UILabel.setBlackLabel(text: name, fontSize: sizes.fontSizes.standartFontSize, fontStyle: .regular)
+            label.setIconWithSize(text: name, icon: UIImage(named: icon), width: sizes.iconSizes.middle, height: sizes.iconSizes.middle)
+            return label
+        }()
+        
+        self.nameLabel = label
         
         if let description = description {
             self.descriptionLabel = UILabel.setColorLabel(text: description,
-                                                          fontSize: 12,
+                                                          fontSize: sizes.fontSizes.standartFontSize,
                                                           fontStyle: .regular,
                                                           fontColor: .systemGray)
         }
@@ -35,15 +41,13 @@ class DailyForecastDetailsView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        setFrames()
         setConstraints()
     }
-
+    
     // MARK: - Private methods
     private func setupView(){
         backgroundColor = .clear
-        [iconImageView,
-         nameLabel,
+        [nameLabel,
         ].forEach{
             $0.translatesAutoresizingMaskIntoConstraints = false
             addSubview($0)
@@ -55,28 +59,16 @@ class DailyForecastDetailsView: UIView {
             addSubview($0)
         }
     }
-    
-    private func setFrames(){
-        iconImageView.frame.size.height = nameLabel.frame.size.height
-        iconImageView.frame.size.width = iconImageView.frame.size.height
-        iconImageView.contentMode = .scaleAspectFit
-    }
-
     // MARK: - Public methods
-
 }
 
 // MARK: - Set constraints
 extension DailyForecastDetailsView {
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            iconImageView.topAnchor.constraint(equalTo: topAnchor, constant: 0),
-            iconImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0),
-            
             nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 0),
-            nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: iconImageView.frame.size.width + 10),
+            nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0),
             nameLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0),
-            
         ])
         
         guard let descriptionLabel = descriptionLabel else {return}

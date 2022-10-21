@@ -11,6 +11,7 @@ class DailyForecastTableView: UITableView {
 
     // MARK: - Initial properties
     private let weatherData: [Hour]
+    private let sizes = SizesStorage.self
 
     // MARK: - Life cycle
     init(weatherData: [Hour]){
@@ -51,6 +52,6 @@ extension DailyForecastTableView: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        150
+        sizes.cellSizes.detailsTW
     }
 }

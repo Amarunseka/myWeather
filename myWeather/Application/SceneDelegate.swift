@@ -15,11 +15,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        let window = UIWindow(windowScene: windowScene)
+        let sizes = setSizes()
+        SizesStorage.fontSizes = sizes.fontSizes
+        SizesStorage.currentWeatherViewSpacings = sizes.currentWeatherViewSpacings
+        SizesStorage.standartSpacingSizes = sizes.standartSpacingSizes
+        SizesStorage.barButtonItemSizes = sizes.barButtonItemSizes
+        SizesStorage.cellSizes = sizes.cellSizes
+        SizesStorage.iconSizes = sizes.iconSizes
+        SizesStorage.onBoardingSizes = sizes.onBoardingSizes
 
+
+        let window = UIWindow(windowScene: windowScene)
         window.rootViewController = DependencyContainer.shared.makeSlideMenuContainerVC()
         window.makeKeyAndVisible()
         self.window = window
+    }
+    
+    func setSizes() -> SetSizes{
+        let size = UIScreen.main.bounds.width
+        if size > 410 && size < 1020 {
+            return SetSizes.iPhone
+        } else if size > 370 && size < 410 {
+            return SetSizes.iPod
+        } else {
+            return SetSizes.iPad
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

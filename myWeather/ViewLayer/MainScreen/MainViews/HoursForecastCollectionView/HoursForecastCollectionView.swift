@@ -10,13 +10,12 @@ import UIKit
 class HoursForecastCollectionView: UICollectionView {
 
     // MARK: - Initial properties
-    let cellWidth: CGFloat
     var hoursForecasts = [Hour]()
+    private let sizes = SizesStorage.self
     
 
     // MARK: - Life cycle
-    init(cellWidth: CGFloat){
-        self.cellWidth = cellWidth
+    init(){
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         super.init(frame: .zero, collectionViewLayout: layout)
@@ -74,7 +73,7 @@ extension HoursForecastCollectionView: UICollectionViewDataSource, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: cellWidth, height: 84)
+        return CGSize(width: sizes.cellSizes.hoursCW.0, height: sizes.cellSizes.hoursCW.1)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

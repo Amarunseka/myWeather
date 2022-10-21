@@ -10,7 +10,9 @@ import UIKit
 
 class DetailsForecastCommonViewController: UIViewController {
     // MARK: - Initial properties
-    let titleLabel = UILabel.setBlackLabel(text: "", fontSize: 18, fontStyle: .regular)
+    let sizes = SizesStorage.self
+    
+    lazy var titleLabel = UILabel.setBlackLabel(text: "", fontSize: sizes.fontSizes.titleFontSize, fontStyle: .regular)
     
     lazy var goBackButton: UIButton = {
         let button = UIButton(type: .system)
@@ -18,7 +20,7 @@ class DetailsForecastCommonViewController: UIViewController {
         button.setImage(image, for: .normal)
         button.setTitle("  Back", for: .normal)
         button.tintColor = .black
-        button.titleLabel?.font = .rubik(size: 16, style: .regular)
+        button.titleLabel?.font = .rubik(size: sizes.fontSizes.bigFontSize, style: .regular)
         button.setTitleColor(.systemGray, for: .normal)
         button.semanticContentAttribute = .forceLeftToRight
         button.addTarget(self, action: #selector(didTapGoBackButton), for: .touchUpInside)
@@ -62,9 +64,9 @@ extension DetailsForecastCommonViewController {
     private func setConstraints() {
         NSLayoutConstraint.activate([
             goBackButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            goBackButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+            goBackButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: sizes.standartSpacingSizes.sideSpacing),
 
-            titleLabel.topAnchor.constraint(equalTo: goBackButton.topAnchor, constant: 40),
+            titleLabel.topAnchor.constraint(equalTo: goBackButton.topAnchor, constant: 0),
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0)
         ])
     }

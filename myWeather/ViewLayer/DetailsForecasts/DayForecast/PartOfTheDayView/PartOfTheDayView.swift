@@ -42,12 +42,10 @@ class PartOfTheDayView: UIView {
         didSet{
             guard let data = data else {return}
             let temp = Converter.convertDegreeScale(data.tempAvg ?? 0)
-            tempLabel.text = "\(temp)˚"
-            
-            prescriptionsLabel.text = "\(data.condition)"
-            
             let icon = WeatherConditionIcons.init(iconName: data.condition)
-            prescriptionsImageView.image = icon.icon
+            
+            tempLabel.setIconWithSize(text: "\(temp)˚", icon: icon.icon, width: sizes.iconSizes.big, height: sizes.iconSizes.big)
+            prescriptionsLabel.text = "\(data.condition)"
             
             let feelsLike = Converter.convertDegreeScale(data.feelsLike)
             let wind = Converter.convertWindSpeed(data.windSpeed)
@@ -66,16 +64,22 @@ class PartOfTheDayView: UIView {
         }
     }
 
+    private let sizes = SizesStorage.self
     private let dataForTableView = [ModelTableView]()
     private let partNameLabel: UILabel
-    private let tempLabel = UILabel.setBlackLabel(text: "__˚", fontSize: 30, fontStyle: .regular)
-    private let prescriptionsLabel = UILabel.setBlackLabel(text: "...", fontSize: 14, fontStyle: .regular)
-    private let prescriptionsImageView = UIImageView.setImage("sunIcon")
+    
+    private lazy var tempLabel: UILabel = {
+        let label = UILabel.setBlackLabel(text: "__˚", fontSize: sizes.fontSizes.enormousFontSize , fontStyle: .regular)
+        label.setIcon(text: "__˚", icon: UIImage.sunIcon)
+        return label
+    }()
+
+    private lazy var prescriptionsLabel = UILabel.setBlackLabel(text: "...", fontSize: sizes.fontSizes.standartFontSize, fontStyle: .regular)
     private let tableView = PartOfTheDayTableView()
     
     // MARK: - Life cycle
     init(partName: String){
-        self.partNameLabel = UILabel.setBlackLabel(text: partName, fontSize: 16, fontStyle: .medium)
+        self.partNameLabel = UILabel.setBlackLabel(text: partName, fontSize: sizes.fontSizes.bigFontSize, fontStyle: .medium)
         super.init(frame: .zero)
         setupView()
     }
@@ -86,7 +90,6 @@ class PartOfTheDayView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        setFrames()
         setConstraints()
     }
     
@@ -98,18 +101,11 @@ class PartOfTheDayView: UIView {
         [partNameLabel,
          tempLabel,
          prescriptionsLabel,
-         prescriptionsImageView,
          tableView
         ].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             self.addSubview($0)
         }
-    }
-
-    
-    private func setFrames(){
-        let size = tempLabel.frame.size.height
-        prescriptionsImageView.frame.size = CGSize(width: size, height: size)
     }
 
     // MARK: - Public methods
@@ -119,20 +115,18 @@ class PartOfTheDayView: UIView {
 // MARK: - Set constraints
 extension PartOfTheDayView {
     private func setConstraints(){
+        let topSpacing = sizes.standartSpacingSizes.sideSpacing - 5
         NSLayoutConstraint.activate([
-            partNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 15),
-            partNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            partNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: sizes.standartSpacingSizes.sideSpacing),
+            partNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: topSpacing),
 
-            tempLabel.topAnchor.constraint(equalTo: topAnchor, constant: 15),
+            tempLabel.topAnchor.constraint(equalTo: topAnchor, constant: topSpacing),
             tempLabel.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0),
-            
-            prescriptionsImageView.topAnchor.constraint(equalTo: topAnchor, constant: 15),
-            prescriptionsImageView.trailingAnchor.constraint(equalTo: tempLabel.leadingAnchor, constant: -25),
 
-            prescriptionsLabel.topAnchor.constraint(equalTo: tempLabel.bottomAnchor, constant: 10),
-            prescriptionsLabel.centerXAnchor.constraint(equalTo: tempLabel.leadingAnchor, constant: 0),
+            prescriptionsLabel.topAnchor.constraint(equalTo: tempLabel.bottomAnchor, constant: topSpacing),
+            prescriptionsLabel.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0),
             
-            tableView.topAnchor.constraint(equalTo: prescriptionsLabel.bottomAnchor, constant: 20),
+            tableView.topAnchor.constraint(equalTo: prescriptionsLabel.bottomAnchor, constant: sizes.standartSpacingSizes.sideSpacing),
             tableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0),
             tableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0),
             tableView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0),

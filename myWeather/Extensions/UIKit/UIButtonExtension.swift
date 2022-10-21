@@ -24,7 +24,7 @@ extension UIButton {
     static func setNavItemButton(image: String, width: CGFloat) -> UIButton {
         let button = UIButton(type: .system)
         let image = UIImage(named: image)
-        button.frame = CGRect(x: 0, y: 0, width: width, height: 16)
+        button.frame = CGRect(x: 0, y: 0, width: width, height: SizesStorage.barButtonItemSizes.height)
         button.setBackgroundImage(image, for: .normal)
         return button
     }

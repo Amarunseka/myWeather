@@ -33,6 +33,10 @@ extension UIImage {
         UIImage(named: "thunderstormIcon")
     }
     
+    static var humidityIcon: UIImage? {
+        UIImage(named: "humidityIcon")
+    }
+    
     
     // for parts of the day
     

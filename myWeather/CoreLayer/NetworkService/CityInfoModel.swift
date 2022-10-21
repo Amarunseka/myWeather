@@ -12,13 +12,13 @@ struct CityInfoModelContainer: Decodable {
     var address = String()
     var weather: WeatherModel?
     
-    var keyedValues: [String: Any] {
-        return [
-            "coordinates": self.coordinates,
-            "address": self.address,
-            "weather": self.weather ?? nil
-        ]
-    }
+//    var keyedValues: [String: Any] {
+//        return [
+//            "coordinates": self.coordinates,
+//            "address": self.address,
+//            "weather": self.weather ?? nil
+//        ]
+//    }
 
 
     enum CodingKeys: String, CodingKey {

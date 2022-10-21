@@ -11,7 +11,7 @@ class MainViewModel {
 
     // MARK: - Initial properties
     var outputSettings = UserDefaultsManager.shared.settings
-    var coordinates = LocalCoordinates()
+//    var coordinates = LocalCoordinates()
     var cityInfo: CityCoordinatesModel
     let saver = SaveHelperForCoreData()
 
@@ -29,7 +29,6 @@ class MainViewModel {
             
             switch netResult {
             case true:
-                print(true)
                 
                 if let weather = WeatherData.weatherData {
                     self.saver.saveWeather(weather: weather, for: self.cityInfo.location)
