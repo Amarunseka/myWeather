@@ -35,12 +35,9 @@ class ChooseDayCollectionView: UICollectionView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
+
     // MARK: - Private methods
-    
-    
-    
+
     // MARK: - Public methods
     func selectToCurrentItem(){
         selectItem(at: [0, 0], animated: true, scrollPosition: .centeredHorizontally)

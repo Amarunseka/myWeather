@@ -15,7 +15,7 @@ class AddNewLocationAlert: UIView {
     
     private let alert  = UIAlertController(title: "Add new location", message: "inter City name", preferredStyle: .alert)
     private let cancel = UIAlertAction(title: "Cancel", style: .destructive)
-
+    
     private lazy var ok = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
         guard let self = self else {return}
         
@@ -64,5 +64,3 @@ class AddNewLocationAlert: UIView {
         vc.present(alert, animated: true)
     }
 }
-
-// MARK: - Set constraints

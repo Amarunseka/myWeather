@@ -39,7 +39,6 @@ extension UIImage {
     
     
     // for parts of the day
-    
     static var termSun: UIImage? {
         UIImage(named: "termSun")
     }

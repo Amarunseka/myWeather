@@ -67,7 +67,6 @@ class ChoseLocationViewController: UIViewController {
     }
 
     // MARK: - Public methods
-
 }
 // MARK: - Set constraints
 extension ChoseLocationViewController{

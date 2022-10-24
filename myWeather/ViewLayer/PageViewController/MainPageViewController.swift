@@ -37,17 +37,6 @@ class MainPageViewController: UIPageViewController {
         setupView()
         setupNavigationBar()
         NotificationCenter.default.addObserver(self, selector: #selector(addNewLocation), name: Notification.Name("addLocation"), object: nil)
-        
-        
-        // MARK: - Удалить
-//        coordinator.fetchAll(CityCDM.self) { [weak self] result in
-//            switch result {
-//            case .success(let result):
-//                print("111111", result[0].address)
-//            case .failure(let error):
-//                print (error)
-//            }
-//        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -175,15 +164,6 @@ extension MainPageViewController: UIPageViewControllerDelegate, UIPageViewContro
     func presentationIndex(for pageViewController: UIPageViewController) -> Int {
         return 0
     }
-    
-//    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-//        if completed {
-//            if let currentViewController = pageViewController.viewControllers?.first,
-//               let index = viewControllersArray.firstIndex(of: currentViewController as! MainViewController) {
-//                titleLabel.text = cities?[index].location.convertCityLocation()
-//            }
-//        }
-//    }
 }
 
 extension MainPageViewController {

@@ -51,9 +51,7 @@ class SettingsViewController: UIViewController {
         }
     }
 
-
     // MARK: - Public methods
-
 }
 // MARK: - Set constraints
 extension SettingsViewController {

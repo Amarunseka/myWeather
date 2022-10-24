@@ -23,7 +23,6 @@ class ChooseDayCollectionViewCell: UICollectionViewCell {
     }
     
     private let sizes = SizesStorage.self
-    
     lazy var nameLabel = UILabel.setBlackLabel(text: "__/__ __", fontSize: sizes.fontSizes.bigFontSize, fontStyle: .regular)
     
     // MARK: - Life cycle
@@ -56,11 +55,8 @@ class ChooseDayCollectionViewCell: UICollectionViewCell {
             $0.textAlignment = .center
         }
     }
+    // MARK: - Public methods
 }
-
-
-// MARK: - Public methods
-
 
 
 // MARK: - Set constraints

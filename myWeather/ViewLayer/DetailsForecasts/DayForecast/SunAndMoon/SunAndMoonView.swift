@@ -31,12 +31,6 @@ class SunAndMoonView: UIView {
     // MARK: - Private methods
     private func setupView(){
         backgroundColor = .specialLightBlue
-        
-//        [
-//        ].forEach {
-//            $0.translatesAutoresizingMaskIntoConstraints = false
-//            self.addSubview($0)
-//        }
     }
 
     

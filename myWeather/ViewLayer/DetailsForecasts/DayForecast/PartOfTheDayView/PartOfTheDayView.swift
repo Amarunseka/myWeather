@@ -56,7 +56,6 @@ class PartOfTheDayView: UIView {
                 ModelTableView(name: .uvIndex, condition: "\(uvIndex)"),
 //                ModelTableView(name: .rain, condition: "\(data.precStrength)%"),
                 ModelTableView(name: .rain, condition: "%"),
-
                 ModelTableView(name: .cloudiness, condition: "\(Int(data.cloudness))"),
             ]
             tableView.data = array
@@ -109,7 +108,6 @@ class PartOfTheDayView: UIView {
     }
 
     // MARK: - Public methods
-
 }
 
 // MARK: - Set constraints

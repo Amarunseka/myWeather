@@ -7,12 +7,6 @@
 
 import UIKit
 
-//enum SettingsNames: String {
-//    case name = "setting"
-//    case index = "index"
-//    case state = "state"
-//}
-
 class SettingsMainView: UIView {
    
     // MARK: - Initial properties

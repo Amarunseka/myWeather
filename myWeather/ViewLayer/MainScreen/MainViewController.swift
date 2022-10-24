@@ -27,7 +27,6 @@ class MainViewController: UIViewController {
         return button
     }()
     
-    // попробовать сделать структуру с размерами и оттуда брать
     private let currentWeatherView = CurrentWeatherView()
     private lazy var hoursForecastCollectionView = HoursForecastCollectionView()
     private lazy var dailyForecastLabel = UILabel.setBlackLabel(text: "Daily forecast", fontSize: sizes.fontSizes.titleFontSize, fontStyle: .medium)
@@ -55,12 +54,6 @@ class MainViewController: UIViewController {
                     self.setParametersSevenDaysForecastTableView(data: weatherData.forecasts)
                 }
             }
-        }
-        
-        // УДАЛИТЬ!!!!
-        let asd = UserDefaultsManager.shared.cities
-        asd.forEach{
-            print($0.location)
         }
         setupView()
         setConstraints()

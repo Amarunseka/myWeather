@@ -355,6 +355,17 @@
 			path = NetworkService;
 			sourceTree = "<group>";
 		};
+		45A8DBCF29067994007E7DEA /* TestWorkFiles */ = {
+			isa = PBXGroup;
+			children = (
+				45E5585628BD4AD200BF7562 /* Spare */,
+				45D34806289A6A0C00F13A40 /* InitialMarks.swift */,
+				453763E228A29331007DB1A0 /* YaFullNetModel.swift */,
+				45D71C5F28ABF638000A1AB4 /* TestPageVC.swift */,
+			);
+			path = TestWorkFiles;
+			sourceTree = "<group>";
+		};
 		45CFD41B289C616E008325E4 /* SevenDaysForecastTableView */ = {
 			isa = PBXGroup;
 			children = (
@@ -480,10 +491,7 @@
 				45D347F0289A5E4600F13A40 /* Assets.xcassets */,
 				45D347F2289A5E4600F13A40 /* LaunchScreen.storyboard */,
 				45D347F5289A5E4600F13A40 /* Info.plist */,
-				45D34806289A6A0C00F13A40 /* InitialMarks.swift */,
-				453763E228A29331007DB1A0 /* YaFullNetModel.swift */,
-				45D71C5F28ABF638000A1AB4 /* TestPageVC.swift */,
-				45E5585628BD4AD200BF7562 /* Spare */,
+				45A8DBCF29067994007E7DEA /* TestWorkFiles */,
 			);
 			path = Resources;
 			sourceTree = "<group>";

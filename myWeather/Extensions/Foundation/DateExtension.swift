@@ -47,11 +47,9 @@ extension Date {
 }
 
 extension String {
-    
     func toDate() -> Date {
         Date.formatter.dateFormat = "yyyy-MM-dd"
         return Date.formatter.date(from: self) ?? Date()
-
     }
 }
 
