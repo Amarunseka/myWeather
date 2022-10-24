@@ -11,7 +11,9 @@ class MainPageViewController: UIPageViewController {
     
     // MARK: - Initial properties
     let viewModel: MainPageViewModel
-    private let titleLabel = UILabel.setBlackLabel(text: "", fontSize: 18, fontStyle: .regular)
+    private let sizes = SizesStorage.self
+    private let fontSizes = SizesStorage.fontSizes
+    private lazy var titleLabel = UILabel.setBlackLabel(text: "", fontSize: fontSizes.titleFontSize, fontStyle: .regular)
     private lazy var viewControllersArray: [MainViewController] = viewModel.createViewController()
 
     
@@ -27,22 +29,14 @@ class MainPageViewController: UIPageViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+//        UserDefaults.standard.removeObject(forKey: "isNewUser")
+
+        viewModel.showOnBoarding(viewController: self)
         delegate = self
         dataSource = self
         setupView()
         setupNavigationBar()
         NotificationCenter.default.addObserver(self, selector: #selector(addNewLocation), name: Notification.Name("addLocation"), object: nil)
-        
-        
-        // MARK: - Удалить
-//        coordinator.fetchAll(CityCDM.self) { [weak self] result in
-//            switch result {
-//            case .success(let result):
-//                print("111111", result[0].address)
-//            case .failure(let error):
-//                print (error)
-//            }
-//        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -76,7 +70,7 @@ class MainPageViewController: UIPageViewController {
     }
 
     private func setupNavigationBar(){
-        let slideMenuButton = UIButton.setNavItemButton(image: "slideMenuIcon", width: 30)
+        let slideMenuButton = UIButton.setNavItemButton(image: "slideMenuIcon", width: sizes.barButtonItemSizes.menuIconWidth)
         slideMenuButton.addTarget(self, action: #selector(didSlideMenuTap), for: .touchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: slideMenuButton)
 
@@ -123,17 +117,17 @@ class MainPageViewController: UIPageViewController {
         let viewControllersArray = viewModel.createViewController()
         
         self.viewControllersArray = viewControllersArray
-        setViewControllers([self.viewControllersArray[0]], direction: .forward, animated: true, completion: nil)
-        
-        if cities.count == 1 {
-            titleLabel.text = cities[0].location.convertCityLocation()
+            self.setViewControllers([self.viewControllersArray[0]], direction: .forward, animated: true, completion: nil)
+            if cities.count == 1 {
+                self.titleLabel.text = cities[0].location.convertCityLocation()
         }
+        
     }
 
 
     // MARK: - Public methods
     public func createRightBarButtonItem() -> UIBarButtonItem {
-        let geolocationButton = UIButton.setNavItemButton(image: "geolocationIcon", width: 20)
+        let geolocationButton = UIButton.setNavItemButton(image: "geolocationIcon", width: sizes.barButtonItemSizes.geolocationIconWidth)
         geolocationButton.addTarget(self, action: #selector(didGeolocationTap), for: .touchUpInside)
         let item = UIBarButtonItem(customView: geolocationButton)
         return item
@@ -170,15 +164,6 @@ extension MainPageViewController: UIPageViewControllerDelegate, UIPageViewContro
     func presentationIndex(for pageViewController: UIPageViewController) -> Int {
         return 0
     }
-    
-//    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-//        if completed {
-//            if let currentViewController = pageViewController.viewControllers?.first,
-//               let index = viewControllersArray.firstIndex(of: currentViewController as! MainViewController) {
-//                titleLabel.text = cities?[index].location.convertCityLocation()
-//            }
-//        }
-//    }
 }
 
 extension MainPageViewController {
@@ -190,3 +175,5 @@ extension MainPageViewController {
         ])
     }
 }
+
+

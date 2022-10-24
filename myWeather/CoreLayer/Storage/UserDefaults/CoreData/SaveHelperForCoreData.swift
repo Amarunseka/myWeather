@@ -20,11 +20,9 @@ class SaveHelperForCoreData {
         
         do {
             let weatherCDM = try coreDataStack.managedContext.fetch(weatherFetch)
-            print("weatherCDM.count: ", weatherCDM.count)
             if weatherCDM.count != 0 {
                 weatherCDM.forEach {
                     if let cityCDM = $0.city, city == cityCDM {
-                        print(city, cityCDM)
                         coreDataStack.managedContext.delete($0)
                     }
                 }
@@ -41,7 +39,6 @@ class SaveHelperForCoreData {
     // MARK: - Private methods
     private func saveWeatherToCoreData(weather: WeatherModel, for city: String){
 
-        print("I try to save")
         let context = coreDataStack.managedContext
         let weatherCDM = WeatherCDM(context: context)
         

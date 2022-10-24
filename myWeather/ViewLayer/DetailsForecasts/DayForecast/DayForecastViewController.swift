@@ -98,15 +98,16 @@ class DayForecastViewController: DetailsForecastCommonViewController {
 // MARK: - Set constraints
 extension DayForecastViewController{
     private func setConstraints(){
+        let sideSpacing = sizes.standartSpacingSizes.sideSpacing - 6
         NSLayoutConstraint.activate([
-            chooseDayCollectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-            chooseDayCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
-            chooseDayCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
+            chooseDayCollectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: sizes.barButtonItemSizes.menuIconWidth),
+            chooseDayCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: sideSpacing),
+            chooseDayCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: sideSpacing),
             chooseDayCollectionView.heightAnchor.constraint(equalToConstant: 50),
             
-            scrollView.topAnchor.constraint(equalTo: chooseDayCollectionView.bottomAnchor, constant: 20),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
+            scrollView.topAnchor.constraint(equalTo: chooseDayCollectionView.bottomAnchor, constant: sizes.standartSpacingSizes.sideSpacing),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: sideSpacing),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -sideSpacing),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
 
             containerView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 0),
@@ -115,24 +116,24 @@ extension DayForecastViewController{
             containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 0),
             containerView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
 
-            dayForecastView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20),
-            dayForecastView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 5),
-            dayForecastView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -5),
-            dayForecastView.heightAnchor.constraint(equalToConstant: 300),
+            dayForecastView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: sizes.standartSpacingSizes.sideSpacing),
+            dayForecastView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 0),
+            dayForecastView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 0),
+            dayForecastView.heightAnchor.constraint(equalToConstant: sizes.cellSizes.parts.0),
             
-            nightForecastView.topAnchor.constraint(equalTo: dayForecastView.bottomAnchor, constant: 10),
-            nightForecastView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 5),
-            nightForecastView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -5),
-            nightForecastView.heightAnchor.constraint(equalToConstant: 300),
+            nightForecastView.topAnchor.constraint(equalTo: dayForecastView.bottomAnchor, constant: sizes.standartSpacingSizes.sideSpacing),
+            nightForecastView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 0),
+            nightForecastView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 0),
+            nightForecastView.heightAnchor.constraint(equalToConstant: sizes.cellSizes.parts.0),
             
-            sunAndMoon.topAnchor.constraint(equalTo: nightForecastView.bottomAnchor, constant: 10),
-            sunAndMoon.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 5),
-            sunAndMoon.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -5),
+            sunAndMoon.topAnchor.constraint(equalTo: nightForecastView.bottomAnchor, constant: sizes.standartSpacingSizes.sideSpacing),
+            sunAndMoon.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 0),
+            sunAndMoon.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 0),
             sunAndMoon.heightAnchor.constraint(equalToConstant: view.frame.size.height / 6),
 
-            qualityOfAirView.topAnchor.constraint(equalTo: sunAndMoon.bottomAnchor, constant: 10),
-            qualityOfAirView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 5),
-            qualityOfAirView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -5),
+            qualityOfAirView.topAnchor.constraint(equalTo: sunAndMoon.bottomAnchor, constant: sizes.standartSpacingSizes.sideSpacing),
+            qualityOfAirView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 0),
+            qualityOfAirView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 0),
             qualityOfAirView.heightAnchor.constraint(equalToConstant: view.frame.size.height / 6),
             qualityOfAirView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: 0)
         ])

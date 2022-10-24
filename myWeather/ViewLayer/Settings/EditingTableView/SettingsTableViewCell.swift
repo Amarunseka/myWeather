@@ -78,11 +78,8 @@ class SettingsTableViewCell: UITableViewCell {
         guard let sendSegmentedState = sendSegmentedState else {return}
         sendSegmentedState(segmentedControl.selectedSegmentIndex)
     }
+    // MARK: - Public methods
 }
-
-
-// MARK: - Public methods
-
 
 
 // MARK: - Set constraints

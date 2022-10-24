@@ -26,7 +26,6 @@ class NetworkRequest {
             return decoder
         }()
         
-        let oldKey = "f993c9fa-6ec5-4ca8-96c8-a260e6b693b2"
         let key = "069674d4-3326-4860-9277-c94c9fdd8505"
 
         let headers = HTTPHeaders(["X-Yandex-API-Key" : "\(key)"])
@@ -43,6 +42,17 @@ class NetworkRequest {
         let keyCoder = "e62f1386-c41a-4be8-a8b8-ece5bef3d3be"
 
         guard let urlStringCoder = "https://geocode-maps.yandex.ru/1.x/?apikey=\(keyCoder)&lang=en_RU&format=json&geocode=\(city)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+              let urlCoder = URL(string: urlStringCoder) else {
+            throw NetErrors.wrongURL}
+
+        return try await AF.request(urlCoder, method: .get).serializingDecodable(CityInfoModelContainer.self).value
+    }
+    
+    
+    func requestCityByCoordinates(longitude: String, latitude: String) async throws -> CityInfoModelContainer {
+        let keyCoder = "e62f1386-c41a-4be8-a8b8-ece5bef3d3be"
+
+        guard let urlStringCoder = "https://geocode-maps.yandex.ru/1.x/?apikey=\(keyCoder)&lang=en_RU&format=json&geocode=\(longitude),\(latitude)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
               let urlCoder = URL(string: urlStringCoder) else {
             throw NetErrors.wrongURL}
 

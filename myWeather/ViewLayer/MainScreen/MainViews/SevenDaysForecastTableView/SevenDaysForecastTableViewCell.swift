@@ -24,12 +24,18 @@ class SevenDaysForecastTableViewCell: UITableViewCell {
             tempLabel.text = "\(min)˚-\(max)˚"
         }
     }
+    
+    private let sizes = SizesStorage.self
 
-    private let dateLabel = UILabel.setColorLabel(text: "", fontSize: 16, fontStyle: .regular, fontColor: .systemGray)
-    private let humidLabel = UILabel.setColorLabel(text: "", fontSize: 14, fontStyle: .regular, fontColor: .specialDarkBlue)
-    private let descriptionWeatherLabel = UILabel.setBlackLabel(text: "", fontSize: 16, fontStyle: .regular)
-    private let tempLabel = UILabel.setBlackLabel(text: "", fontSize: 18, fontStyle: .regular)
-    private let precipitationsImageView = UIImageView.setImage("rainIcon")
+    private lazy var dateLabel = UILabel.setColorLabel(text: "", fontSize: sizes.fontSizes.bigFontSize, fontStyle: .regular, fontColor: .systemGray)
+    private lazy var humidLabel = UILabel.setColorLabel(text: "", fontSize: sizes.fontSizes.standartFontSize, fontStyle: .regular, fontColor: .specialDarkBlue)
+    private lazy var dateAndHumidStackView = UIStackView.set(subViews: [dateLabel, humidLabel], axis: .vertical, spacing: 3)
+    
+    private lazy var descriptionWeatherLabel = UILabel.setBlackLabel(text: "", fontSize: sizes.fontSizes.bigFontSize, fontStyle: .regular)
+    private lazy var tempLabel = UILabel.setBlackLabel(text: "", fontSize: sizes.fontSizes.titleFontSize, fontStyle: .regular)
+    private lazy var descriptionAndTempStackView = UIStackView.set(subViews: [descriptionWeatherLabel, tempLabel], axis: .horizontal, spacing: 0)
+    
+    private lazy var precipitationsImageView = UIImageView.setImage("rainIcon")
 
     // MARK: - Life cycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -48,16 +54,17 @@ class SevenDaysForecastTableViewCell: UITableViewCell {
     
     // MARK: - Private methods
     private func setupView(){
+        dateAndHumidStackView.alignment = .lastBaseline
+        descriptionAndTempStackView.distribution = .equalSpacing
+        
         backgroundColor = .specialLightBlue
         layer.cornerRadius = 5
         clipsToBounds = true
-
+        
         [
-         dateLabel,
-         humidLabel,
-         descriptionWeatherLabel,
-         tempLabel,
-         precipitationsImageView
+            dateAndHumidStackView,
+            descriptionAndTempStackView,
+            precipitationsImageView
         ].forEach{
             $0.translatesAutoresizingMaskIntoConstraints = false
             contentView.addSubview($0)
@@ -73,25 +80,17 @@ extension SevenDaysForecastTableViewCell {
     private func setConstraints(){
 
         NSLayoutConstraint.activate([
-            dateLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            dateLabel.trailingAnchor.constraint(equalTo: humidLabel.trailingAnchor, constant: 0),
+            dateAndHumidStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: sizes.standartSpacingSizes.sideSpacing),
+            dateAndHumidStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 0),
             
-            precipitationsImageView.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: -3),
-            precipitationsImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            precipitationsImageView.heightAnchor.constraint(equalToConstant: 30),
-            precipitationsImageView.widthAnchor.constraint(equalToConstant: 30),
-            precipitationsImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -3),
-
-            humidLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 0),
-            humidLabel.leadingAnchor.constraint(equalTo: precipitationsImageView.trailingAnchor, constant: 5),
-            humidLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -7),
-
-            tempLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
-            tempLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 0),
-
-            descriptionWeatherLabel.leadingAnchor.constraint(equalTo: humidLabel.trailingAnchor, constant: 15),
-            descriptionWeatherLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 0),
-//            descriptionWeatherLabel.trailingAnchor.constraint(equalTo: tempLabel.leadingAnchor, constant: -20),
+            descriptionAndTempStackView.leadingAnchor.constraint(equalTo: dateAndHumidStackView.trailingAnchor, constant: sizes.standartSpacingSizes.sideSpacing),
+            descriptionAndTempStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
+            descriptionAndTempStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 0),
+            
+            precipitationsImageView.topAnchor.constraint(equalTo: descriptionAndTempStackView.centerYAnchor, constant: 0),
+            precipitationsImageView.trailingAnchor.constraint(equalTo: dateAndHumidStackView.leadingAnchor, constant: sizes.fontSizes.smallFontSize),
+            precipitationsImageView.heightAnchor.constraint(equalToConstant: sizes.iconSizes.middle),
+            precipitationsImageView.widthAnchor.constraint(equalToConstant: sizes.iconSizes.middle),
         ])
     }
 }

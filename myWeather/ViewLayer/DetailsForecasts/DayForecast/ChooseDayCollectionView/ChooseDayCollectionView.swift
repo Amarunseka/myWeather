@@ -12,6 +12,7 @@ class ChooseDayCollectionView: UICollectionView {
     // MARK: - Initial properties
     var itemNames = [String]()
     var didSelectItem: ((Int)->())?
+    private let sizes = SizesStorage.self
 
     // MARK: - Life cycle
     init(){
@@ -29,18 +30,14 @@ class ChooseDayCollectionView: UICollectionView {
         
         showsHorizontalScrollIndicator = false
         showsVerticalScrollIndicator = false
-        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
+
     // MARK: - Private methods
-    
-    
-    
+
     // MARK: - Public methods
     func selectToCurrentItem(){
         selectItem(at: [0, 0], animated: true, scrollPosition: .centeredHorizontally)
@@ -61,7 +58,7 @@ extension ChooseDayCollectionView: UICollectionViewDataSource, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 100, height: 30)
+        return CGSize(width: sizes.cellSizes.choseDayCW.0, height: sizes.cellSizes.choseDayCW.1)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

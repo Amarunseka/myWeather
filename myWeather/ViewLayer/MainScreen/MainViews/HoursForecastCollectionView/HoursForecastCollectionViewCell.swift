@@ -42,9 +42,11 @@ class HoursForecastCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    private let timeLabel = UILabel.setBlackLabel(text: "", fontSize: 16, fontStyle: .regular)
-    private let precipitationsImageView = UIImageView.setImage("sunIcon")
-    private let tempLabel = UILabel.setBlackLabel(text: "", fontSize: 16, fontStyle: .regular)
+    private let sizes = SizesStorage.self
+    
+    private lazy var timeLabel = UILabel.setBlackLabel(text: "", fontSize: sizes.fontSizes.bigFontSize, fontStyle: .regular)
+    private lazy var precipitationsImageView = UIImageView.setImage("sunIcon")
+    private lazy var tempLabel = UILabel.setBlackLabel(text: "", fontSize: sizes.fontSizes.bigFontSize, fontStyle: .regular)
 
     // MARK: - Life cycle
     override init(frame: CGRect) {
@@ -95,19 +97,16 @@ class HoursForecastCollectionViewCell: UICollectionViewCell {
 extension HoursForecastCollectionViewCell{
     private func setConstraints(){
         NSLayoutConstraint.activate([
-            timeLabel.topAnchor.constraint(equalTo: topAnchor, constant: 15),
-            timeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 2),
-            timeLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -2),
-            
-            precipitationsImageView.topAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: 0),
-            precipitationsImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 2),
-            precipitationsImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -2),
-            precipitationsImageView.heightAnchor.constraint(equalToConstant: 20),
+            precipitationsImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 0),
+            precipitationsImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 0),
+            precipitationsImageView.heightAnchor.constraint(equalToConstant: sizes.iconSizes.small),
+            precipitationsImageView.widthAnchor.constraint(equalToConstant: sizes.iconSizes.small),
 
-            tempLabel.topAnchor.constraint(equalTo: precipitationsImageView.bottomAnchor, constant: 0),
-            tempLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 2),
-            tempLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -2),
-            tempLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            timeLabel.bottomAnchor.constraint(equalTo: precipitationsImageView.topAnchor, constant: 0),
+            timeLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 0),
+
+            tempLabel.topAnchor.constraint(equalTo: precipitationsImageView.bottomAnchor, constant: 2),
+            tempLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 0),
         ])
     }
 }

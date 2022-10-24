@@ -11,6 +11,7 @@ class SevenDaysForecastTableView: UITableView {
     // MARK: - Initial properties
     var didSelectRow: ((IndexPath)->())?
     var days = [Forecast]()
+    private let sizes = SizesStorage.self
 
     // MARK: - Life cycle
     init() {
@@ -65,7 +66,7 @@ extension SevenDaysForecastTableView: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        55
+        return sizes.cellSizes.sevenDaysTW
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {

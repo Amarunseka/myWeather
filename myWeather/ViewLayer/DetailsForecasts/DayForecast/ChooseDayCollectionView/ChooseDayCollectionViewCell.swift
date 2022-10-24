@@ -22,7 +22,8 @@ class ChooseDayCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    let nameLabel = UILabel.setBlackLabel(text: "__/__ __", fontSize: 16, fontStyle: .regular)
+    private let sizes = SizesStorage.self
+    lazy var nameLabel = UILabel.setBlackLabel(text: "__/__ __", fontSize: sizes.fontSizes.bigFontSize, fontStyle: .regular)
     
     // MARK: - Life cycle
     override init(frame: CGRect) {
@@ -43,10 +44,9 @@ class ChooseDayCollectionViewCell: UICollectionViewCell {
     private func setupView(){
         backgroundColor = .clear
         contentView.backgroundColor = .clear
-        layer.cornerRadius = 5
+        layer.cornerRadius = 10
         layer.borderColor = UIColor.systemGray2.cgColor
         clipsToBounds = true
-
 
         [nameLabel
         ].forEach {
@@ -55,21 +55,18 @@ class ChooseDayCollectionViewCell: UICollectionViewCell {
             $0.textAlignment = .center
         }
     }
+    // MARK: - Public methods
 }
-
-
-// MARK: - Public methods
-
 
 
 // MARK: - Set constraints
 extension ChooseDayCollectionViewCell{
     private func setConstraints(){
         NSLayoutConstraint.activate([
-            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
-            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
-            nameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: sizes.standartSpacingSizes.betweenElementsSpacing),
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: sizes.standartSpacingSizes.betweenElementsSpacing),
+            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -sizes.standartSpacingSizes.betweenElementsSpacing),
+            nameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -sizes.standartSpacingSizes.betweenElementsSpacing),
         ])
     }
 }

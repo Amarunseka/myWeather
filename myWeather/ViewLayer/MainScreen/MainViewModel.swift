@@ -11,7 +11,6 @@ class MainViewModel {
 
     // MARK: - Initial properties
     var outputSettings = UserDefaultsManager.shared.settings
-    var coordinates = LocalCoordinates()
     var cityInfo: CityCoordinatesModel
     let saver = SaveHelperForCoreData()
 
@@ -29,7 +28,6 @@ class MainViewModel {
             
             switch netResult {
             case true:
-                print(true)
                 
                 if let weather = WeatherData.weatherData {
                     self.saver.saveWeather(weather: weather, for: self.cityInfo.location)
@@ -40,8 +38,6 @@ class MainViewModel {
                 self.unfoldWeatherFromCD { CDResult in
                     
                     if CDResult {
-                        
-                        // ПЕРЕДЕЛАТЬ АЛЕРТ А ОТДЕЛЬНЫЙ ФАЙЛ
                         let alert = UIAlertController(title: "Error net loading",
                                                       message: "Couldn't download the weather data from net. There is a local save data. Show?",
                                                       preferredStyle: .alert)

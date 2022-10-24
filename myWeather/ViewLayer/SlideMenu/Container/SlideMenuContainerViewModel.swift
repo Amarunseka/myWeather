@@ -47,7 +47,6 @@ class SlideMenuContainerViewModel {
     }
     
     
-    // ТУТ ИЗ ЗА ТОГО ЧТО СТАЮТСЯ ТАБ БАР АЙТЕМ ВОЗМОЖНО НУЖНО СДЕЛАТЬ ФУНКЦИЮ ВОЗВРАТА
     func didTapMenuItem(mainVC: MainPageViewController, currentVC: inout UIViewController?, newVC: UIViewController){
         currentVC?.view.removeFromSuperview()
         currentVC?.didMove(toParent: nil)
@@ -63,7 +62,7 @@ class SlideMenuContainerViewModel {
             vc.didMove(toParent: mainVC)
             currentVC = vc
         } else {
-            mainVC.navigationItem.rightBarButtonItem = mainVC.createRightBarButtonItem()
+                mainVC.navigationItem.rightBarButtonItem = mainVC.createRightBarButtonItem()
         }
     }
 }
