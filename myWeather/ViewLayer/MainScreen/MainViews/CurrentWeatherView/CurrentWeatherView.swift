@@ -53,7 +53,6 @@ class CurrentWeatherView: UIView {
     /// Ellipse
     private let sunEllipseImageView = UIImageView.setImage("sunEllipse")
     
-    
     /// Sunrise
     private let sunriseImageView = UIImageView.setImage("sunriseIcon")
     private let arrowUpImageView = UIImageView.setImage("yellowArrowUp")
