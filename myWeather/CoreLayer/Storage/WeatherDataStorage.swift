@@ -26,7 +26,7 @@ struct WeatherConditionIcons {
             return UIImage.rainAndSunIcon
         case "overcast":
             return UIImage.cloudsIcon
-        case "overcast-and-rain", "cloudy-and-light-rain", "overcast-and-light-rain", "cloudy-and-rain", "overcast-and-wet-snow", "partly-cloudy-and-light-snow", "overcast-and-snow", "cloudy-and-light-snow", "overcast-and-light-snow", "cloudy-and-snow", "rain", "showers":
+        case "overcast-and-rain", "cloudy-and-light-rain", "overcast-and-light-rain", "cloudy-and-rain", "overcast-and-wet-snow", "partly-cloudy-and-light-snow", "overcast-and-snow", "cloudy-and-light-snow", "overcast-and-light-snow", "cloudy-and-snow", "rain", "showers", "wet-snow", "light-snow":
             return UIImage.rainIcon
         case "overcast-thunderstorms-with-rain":
             return UIImage.thunderstormIcon

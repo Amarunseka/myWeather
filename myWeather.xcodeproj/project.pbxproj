@@ -991,7 +991,7 @@
 				DEVELOPMENT_TEAM = 6WTM73J33R;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = myWeather/Resources/Info.plist;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Do allow application to uses your location?";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Do allow application to use your location?";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -1019,7 +1019,7 @@
 				DEVELOPMENT_TEAM = 6WTM73J33R;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = myWeather/Resources/Info.plist;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Do allow application to uses your location?";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Do allow application to use your location?";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

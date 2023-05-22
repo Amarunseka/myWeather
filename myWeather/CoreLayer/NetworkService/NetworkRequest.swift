@@ -26,7 +26,9 @@ class NetworkRequest {
             return decoder
         }()
         
-        let key = "069674d4-3326-4860-9277-c94c9fdd8505"
+        let key = "9ab33bb1-9022-4a33-a6a8-ba5387207c80" // NEW
+        
+//        let key = "069674d4-3326-4860-9277-c94c9fdd8505" // OLD
 
         let headers = HTTPHeaders(["X-Yandex-API-Key" : "\(key)"])
         let urlString = "https://api.weather.yandex.ru/v2/forecast?lat=\(latitude)&lon=\(longitude)&lang=ru_RU&limit=7&hours=true&extra=true"
